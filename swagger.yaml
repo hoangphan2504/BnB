@@ -128,6 +128,24 @@ paths:
         500:
           description: 'Server Error'
 
+# [POST] logout
+  /logout:
+    post:
+      tags:
+      - auth
+      summary: Logout
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  
+
 # definitions
 definitions:
   users:

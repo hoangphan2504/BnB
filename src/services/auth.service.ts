@@ -22,17 +22,17 @@ const createCookie = (tokenData: TokenData): string => {
 @Service()
 export class AuthService {
   public async signup(userData: CreateUserDto): Promise<User> {
-    const findUser: User = await DB.Users.findOne({ where: { email: userData.email } });
+    const findUser: User = await DB.User.findOne({ where: { email: userData.email } });
     if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await DB.Users.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await DB.User.create({ ...userData, password: hashedPassword });
 
     return createUserData;
   }
 
   public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    const findUser: User = await DB.Users.findOne({ where: { email: userData.email } });
+    const findUser: User = await DB.User.findOne({ where: { email: userData.email } });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   public async logout(userData: User): Promise<User> {
-    const findUser: User = await DB.Users.findOne({ where: { email: userData.email, password: userData.password } });
+    const findUser: User = await DB.User.findOne({ where: { email: userData.email, password: userData.password } });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;

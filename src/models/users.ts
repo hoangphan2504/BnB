@@ -1,6 +1,7 @@
-import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { User } from '@interfaces/users.interface';
 import { Role } from '@/interfaces/auth.interface';
+import { OrderModel } from './orders';
 
 export type UserCreationAttributes = Optional<User, 'id'>;
 
@@ -17,7 +18,6 @@ export class UserModel extends Model<User, UserCreationAttributes> implements Us
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
-
 const initModel = (sequelize: Sequelize): typeof UserModel => {
   UserModel.init(
     {
@@ -59,8 +59,11 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
       tableName: 'users',
       timestamps: true,
       sequelize,
+      paranoid: true,
     },
   );
+
+  UserModel.hasMany(OrderModel, { foreignKey: 'userId' });
 
   return UserModel;
 };

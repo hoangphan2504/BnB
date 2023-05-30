@@ -1,7 +1,9 @@
 import Sequelize from 'sequelize';
 import { NODE_ENV, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE } from '@config';
 import UserModel from '@/models/users';
+import OrderModel from '@/models/orders';
 import { logger } from '@utils/logger';
+import OrderItemModel from '@/models/order-items';
 
 const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   dialect: 'mysql',
@@ -28,7 +30,9 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 sequelize.authenticate();
 
 export const DB = {
-  Users: UserModel(sequelize),
+  OrderItem: OrderItemModel(sequelize),
+  Order: OrderModel(sequelize),
+  User: UserModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };

@@ -46,8 +46,15 @@ export class App {
   }
 
   private connectToDatabase() {
-    DB.sequelize.sync({ alter: true });
-    logger.info('Database connected!');
+    DB.sequelize
+      .sync({ alter: true })
+      .then(() => {
+        logger.info('Database connected!');
+      })
+      .catch(err => {
+        // logger.error(err);
+        console.log(err);
+      });
   }
 
   private initializeMiddlewares() {

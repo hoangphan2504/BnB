@@ -1,49 +1,54 @@
-import { Reviews } from '@/interfaces/order-items.interface';
+import { Reviews } from '@/interfaces/reviews.interface';
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { ProductModel } from './products';
 
-export type OrderItemCreationAttributes = Optional<Reviews, 'id'>;
+export type ReviewsCreationAttributes = Optional<Reviews, 'id'>;
 
-export class OrderItemModel extends Model<Reviews, OrderItemCreationAttributes> implements Reviews {
+export class ReviewsModel extends Model<Reviews, ReviewsCreationAttributes> implements Reviews {
   public id: number;
-  public orderId: number;
+  public user_id: number;
   public product_id: number;
-  public quantity: number;
+  public content: string;
+  public rating: number;
+
 
   public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
 }
 
-const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
-  OrderItemModel.init(
+const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
+  ReviewsModel.init(
     {
       id: {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
       },
-      orderId: {
+      user_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      product_id: {
+      product_id:{
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      quantity: {
+      content: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(225),
+      },
+      rating: {
+        allowNull: false,
+        type: DataTypes.DOUBLE,
       },
     },
     {
-      tableName: 'order_items',
+      tableName: 'reviews',
       timestamps: true,
       sequelize,
     },
   );
-
-  return OrderItemModel;
+  
+  return ReviewsModel;
 };
 
 export default initModel;

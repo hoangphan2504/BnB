@@ -1,9 +1,9 @@
-export interface OrderItems {
+export interface Reviews {
   id: number;
 
   orderId: number;
 
-  productId: number;
+  product_id: number;
 
   quantity: number;
 }

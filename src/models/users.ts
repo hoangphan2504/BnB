@@ -63,8 +63,6 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
     },
   );
 
-  UserModel.hasMany(OrderModel, { foreignKey: 'userId' });
-
   return UserModel;
 };
 

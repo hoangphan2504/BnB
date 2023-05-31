@@ -1,16 +1,14 @@
 import { Reviews } from '@/interfaces/reviews.interface';
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { ProductModel } from './products';
 
 export type ReviewsCreationAttributes = Optional<Reviews, 'id'>;
 
 export class ReviewsModel extends Model<Reviews, ReviewsCreationAttributes> implements Reviews {
   public id: number;
-  public user_id: number;
-  public product_id: number;
+  public userId: number;
+  public productId: number;
   public content: string;
   public rating: number;
-
 
   public readonly createdAt!: Date;
   public readonly deletedAt!: Date;
@@ -24,11 +22,11 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      product_id:{
+      productId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
@@ -47,7 +45,7 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
       sequelize,
     },
   );
-  
+
   return ReviewsModel;
 };
 

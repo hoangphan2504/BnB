@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import { NODE_ENV, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PASS } from '@config';
 import UserModel from '@/models/users';
 import OrderModel from '@/models/orders';
-import ProductModel  from '@/models/products';
+import ProductModel from '@/models/products';
 import ReviewsModel from '@/models/reviews';
 import CategoriesModel from '@/models/categories';
 
@@ -10,7 +10,6 @@ import OrderItemModel from '@/models/order-items';
 import { logger } from '@/utils/logger';
 
 console.log(DB_DATABASE, DB_USER, DB_PASSWORD, DB_PASS);
-
 
 const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
   dialect: 'mysql',
@@ -36,14 +35,38 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
 
 sequelize.authenticate();
 
-export const DB = {
-  Reviews: ReviewsModel(sequelize),
-  OrderItem: OrderItemModel(sequelize),
-  Product: ProductModel(sequelize),
-  Categories: CategoriesModel(sequelize),
-  Order: OrderModel(sequelize),
-  User: UserModel(sequelize),
+const initAllModels = (sequelize: Sequelize.Sequelize) => {
+  const Reviews = ReviewsModel(sequelize);
+  const OrderItem = OrderItemModel(sequelize);
+  const Product = ProductModel(sequelize);
+  const Categories = CategoriesModel(sequelize);
+  const Order = OrderModel(sequelize);
+  const User = UserModel(sequelize);
 
+  Product.hasMany(OrderItem, { foreignKey: 'productId' });
+  OrderItem.belongsTo(Product, { foreignKey: 'productId' });
+
+  Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+  OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+
+  Product.hasMany(Reviews, { foreignKey: 'productId' });
+  Reviews.belongsTo(Product, { foreignKey: 'productId' });
+
+  User.hasMany(Order, { foreignKey: 'userId' });
+  Order.belongsTo(User, { foreignKey: 'userId' });
+
+  return {
+    Reviews,
+    OrderItem,
+    Product,
+    Categories,
+    Order,
+    User,
+  };
+};
+
+export const DB = {
+  ...initAllModels(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };

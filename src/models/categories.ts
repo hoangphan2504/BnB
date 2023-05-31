@@ -37,7 +37,7 @@ const initModel = (sequelize: Sequelize): typeof CategoriesModel => {
       sequelize,
     },
   );
-  CategoriesModel.hasMany(ProductModel, {foreignKey:'categories_id'})
+
   return CategoriesModel;
 };
 

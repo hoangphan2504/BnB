@@ -3,7 +3,7 @@ export interface Reviews {
 
   orderId: number;
 
-  product_id: number;
+  productId: number;
 
   quantity: number;
 }

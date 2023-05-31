@@ -1,8 +1,7 @@
-import { DataTypes, EnumDataType, Model, Optional, Sequelize } from 'sequelize';
+import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { OrderItemModel } from './order-items';
 import { Product, ProductStatus } from '@/interfaces/products.interface';
 import { ReviewsModel } from './reviews';
-
 
 export type ProductCreationAttributes = Optional<Product, 'id'>;
 
@@ -26,7 +25,6 @@ export class ProductModel extends Model<Product, ProductCreationAttributes> impl
 const initModel = (sequelize: Sequelize): typeof ProductModel => {
   ProductModel.init(
     {
-    
       id: {
         autoIncrement: true,
         primaryKey: true,
@@ -76,18 +74,16 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
       images: {
         allowNull: false,
         type: DataTypes.STRING(225),
-      }
+      },
     },
     {
-      tableName: 'product',
+      tableName: 'products',
       timestamps: true,
       paranoid: true,
       sequelize,
     },
   );
 
-  ProductModel.hasOne(OrderItemModel, { foreignKey: 'product_id' });
-  ProductModel.hasMany(ReviewsModel, {foreignKey: 'product_id'})
   return ProductModel;
 };
 

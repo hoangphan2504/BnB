@@ -21,7 +21,7 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
 
     if (Authorization) {
       const { id } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
-      const findUser = await DB.User.findByPk(id);
+      const findUser = await DB.Prodcuts.findByPk(id);
 
       if (findUser) {
         req.user = findUser;

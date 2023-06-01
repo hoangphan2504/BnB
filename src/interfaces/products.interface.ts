@@ -1,5 +1,3 @@
-import { EnumDataType } from "sequelize";
-
 export enum ProductStatus {
   PENDING = 'PENDING',
   CONFIRMED = 'CONFIRMED',
@@ -9,7 +7,6 @@ export enum ProductStatus {
   PAID = 'PAID',
   UNPAID = 'UNPAID',
 }
-
 
 export interface Product {
   id: number;

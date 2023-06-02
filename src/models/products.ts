@@ -1,7 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { OrderItemModel } from './order-items';
 import { Product, ProductStatus } from '@/interfaces/products.interface';
-import { ReviewsModel } from './reviews';
 
 export type ProductCreationAttributes = Optional<Product, 'id'>;
 
@@ -60,7 +58,7 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
         type: DataTypes.STRING(45),
       },
       categories_id: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING(45),
       },
       quantity: {
@@ -72,8 +70,8 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
         type: DataTypes.INTEGER,
       },
       images: {
-        allowNull: false,
-        type: DataTypes.STRING(225),
+        allowNull: true,
+        type: DataTypes.JSON,
       },
     },
     {

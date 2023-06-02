@@ -29,8 +29,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   public brand_name: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   public categories_id: string;
 
   @IsNumber()
@@ -39,7 +39,6 @@ export class CreateProductDto {
   @IsNumber()
   public sold: number;
 
-  @IsArray()
   @IsString({ each: true })
   public images: string[];
 }

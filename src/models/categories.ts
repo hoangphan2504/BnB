@@ -32,7 +32,7 @@ const initModel = (sequelize: Sequelize): typeof CategoriesModel => {
       },
     },
     {
-      tableName: 'order_items',
+      tableName: 'categories',
       timestamps: true,
       sequelize,
     },

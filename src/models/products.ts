@@ -73,7 +73,7 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
       },
       images: {
         allowNull: false,
-        type: DataTypes.STRING(225),
+        type: DataTypes.JSON,
       },
     },
     {

@@ -31,7 +31,7 @@ export class CreateProductDto {
 
   @IsOptional()
   @IsString()
-  public categories_id: string;
+  public categories_id?: string;
 
   @IsNumber()
   public quantity: number;

@@ -1,7 +1,5 @@
 export interface Categories {
-    id: number;
-    name: string;
-    desc: string;
-
-  }
-  
+  id: number;
+  name: string;
+  desc: string;
+}

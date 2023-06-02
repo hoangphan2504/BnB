@@ -1,13 +1,12 @@
-import { Reviews } from '@/interfaces/order-items.interface';
+import { OrderItem } from '@/interfaces/order-items.interface';
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
-export type OrderItemCreationAttributes = Optional<Reviews, 'id'>;
+export type OrderItemCreationAttributes = Optional<OrderItem, 'id'>;
 
-export class OrderItemModel extends Model<Reviews, OrderItemCreationAttributes> implements Reviews {
+export class OrderItemModel extends Model<OrderItem, OrderItemCreationAttributes> implements OrderItem {
   public id: number;
-  public orderId: number;
-  public productId: number;
   public quantity: number;
+  public product: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -22,11 +21,7 @@ const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       },
-      orderId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      productId: {
+      product: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },

@@ -3,6 +3,8 @@ tags:
     description: users API
   - name: auth
     description: auth API
+  - name: products
+    description: products API
 
 paths:
   /users:
@@ -191,6 +193,107 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] products
+  /products:
+    get:
+      tags:
+        - products
+      summary: Find All Products
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] products
+    post:
+      tags:
+        - products
+      summary: Add Product
+      parameters:
+        - name: body
+          in: body
+          description: product data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateProductDto'
+
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [GET] products/id
+  /products/{id}:
+    get:
+      tags:
+        - products
+      summary: Find Product By Id
+      parameters:
+        - name: id
+          in: path
+          description: product Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] products/id
+    put:
+      tags:
+        - products
+      summary: Update Product By Id
+      parameters:
+        - name: id
+          in: path
+          description: product Id
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: product Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateProductDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] products/id
+    delete:
+      tags:
+        - products
+      summary: Delete Product By Id
+      parameters:
+        - name: id
+          in: path
+          description: product Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   CreateUsersDto:
@@ -227,11 +330,11 @@ definitions:
       password:
         type: string
         description: user Password
-        
+
   CreateProductDto:
     type: object
     required:
-     
+
     properties:
       name:
         type: string
@@ -243,14 +346,22 @@ definitions:
         type: number
         description: product Price
       status:
-        type: ProductStatus
-        description: product Status
+        type: string
+        enum:
+          - PENDING
+          - CONFIRMED
+          - CANCELLED
+          - DELIVERED
+          - RETURNED
+          - PAID
+          - UNPAID
+        description: product status
       brand_name:
         type: string
         description: product Brandname
       categories_id:
         type: string
-        description: product CategoriesId 
+        description: product CategoriesId
       quantity:
         type: number
         description: product Quantity
@@ -258,8 +369,24 @@ definitions:
         type: number
         description: product SoldNumber
       images:
-        type: string[]
+        type: array
+        items:
+          type: string
         description: product Image
+
+    example:
+      name: 'Example Product'
+      desc: 'Example Description'
+      price: 19.99
+      status: 'PENDING'
+      brand_name: 'Example Brand'
+      categories_id: '12345'
+      quantity: 10
+      sold: 0
+      images:
+        - 'https://example.com/image1.jpg'
+        - 'https://example.com/image2.jpg'
+
 schemes:
   - https
   - http

@@ -14,7 +14,8 @@
     "lint:fix": "npm run lint -- --fix",
     "deploy:prod": "npm run build && pm2 start ecosystem.config.js --only prod",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev",
-    "db:drop": "ts-node -r tsconfig-paths/register --transpile-only src/database/commands/drop.ts"
+    "db:drop": "ts-node -r tsconfig-paths/register --transpile-only src/database/commands/drop.ts",
+    "db:seed": "ts-node -r tsconfig-paths/register --transpile-only src/database/seeders/seed.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -40,6 +41,7 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.220",
     "@types/bcrypt": "^5.0.0",

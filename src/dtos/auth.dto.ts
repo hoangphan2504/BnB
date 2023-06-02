@@ -7,3 +7,8 @@ export class LoginDto {
   @IsString()
   public password: string;
 }
+
+export class RefreshTokenDto {
+  @IsString()
+  public refreshToken: string;
+}

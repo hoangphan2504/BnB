@@ -54,7 +54,7 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
   return {
     Reviews,
     OrderItem,
-    Product,
+    Order: Product,
     Categories,
     Order,
     Prodcuts: User,

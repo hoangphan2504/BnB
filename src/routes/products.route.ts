@@ -3,6 +3,7 @@ import { ProductController } from '@/controllers/products.controller';
 import { CreateProductDto } from '@/dtos/products.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
+import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';
 
 export class ProductRoute implements Routes {
   public path = '/products';

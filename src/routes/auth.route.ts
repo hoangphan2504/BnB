@@ -10,6 +10,7 @@ export class AuthRoute implements Routes {
   public router = Router();
   public auth = new AuthController();
   public path = '/auth';
+  authController: any;
 
   constructor() {
     this.initializeRoutes();

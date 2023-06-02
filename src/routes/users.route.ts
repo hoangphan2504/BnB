@@ -8,6 +8,7 @@ export class UserRoute implements Routes {
   public path = '/users';
   public router = Router();
   public user = new UserController();
+  usersController: any;
 
   constructor() {
     this.initializeRoutes();

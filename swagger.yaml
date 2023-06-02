@@ -1,15 +1,15 @@
 tags:
-- name: users
-  description: users API
-- name: auth
-  description: auth API
+  - name: users
+    description: users API
+  - name: auth
+    description: auth API
 
 paths:
-# [GET] users
   /users:
+    # [GET] users
     get:
       tags:
-      - users
+        - users
       summary: Find All Users
       responses:
         200:
@@ -17,18 +17,18 @@ paths:
         500:
           description: 'Server Error'
 
-# [POST] users
+    # [POST] users
     post:
       tags:
-      - users
+        - users
       summary: Add User
       parameters:
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUsersDto'
       responses:
         201:
           description: 'Created'
@@ -39,18 +39,18 @@ paths:
         500:
           description: 'Server Error'
 
-# [GET] users/id
+  # [GET] users/id
   /users/{id}:
     get:
       tags:
-      - users
+        - users
       summary: Find User By Id
       parameters:
-      - name: id
-        in: path
-        description: User Id
-        required: true
-        type: integer
+        - name: id
+          in: path
+          description: User Id
+          required: true
+          type: integer
       responses:
         200:
           description: 'OK'
@@ -59,23 +59,23 @@ paths:
         500:
           description: 'Server Error'
 
-# [PUT] users/id
+    # [PUT] users/id
     put:
       tags:
-      - users
+        - users
       summary: Update User By Id
       parameters:
-      - name: id
-        in: path
-        description: user Id
-        required: true
-        type: integer
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
+        - name: id
+          in: path
+          description: user Id
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUsersDto'
       responses:
         200:
           description: 'OK'
@@ -86,17 +86,17 @@ paths:
         500:
           description: 'Server Error'
 
-# [DELETE] users/id
+    # [DELETE] users/id
     delete:
       tags:
-      - users
+        - users
       summary: Delete User By Id
       parameters:
-      - name: id
-        in: path
-        description: user Id
-        required: true
-        type: integer
+        - name: id
+          in: path
+          description: user Id
+          required: true
+          type: integer
       responses:
         200:
           description: 'OK'
@@ -105,19 +105,42 @@ paths:
         500:
           description: 'Server Error'
 
-# [POST] login
-  /login:
+  # [POST] signup
+  /auth/signup:
     post:
       tags:
-      - auth
+        - auth
+      summary: Signup
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUsersDto'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [POST] login
+  /auth/login:
+    post:
+      tags:
+        - auth
       summary: Login
       parameters:
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/LoginDto'
       responses:
         200:
           description: 'OK'
@@ -125,16 +148,56 @@ paths:
           description: 'Bad Request'
         409:
           description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [POST] logout
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logout
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [GET] user route
+  /auth/user:
+    get:
+      tags:
+        - auth
+      summary: user route for authorization testing
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+  # [GET] admin route
+  /auth/admin:
+    get:
+      tags:
+        - auth
+      summary: admin route for authorization testing
+      responses:
+        200:
+          description: 'OK'
         500:
           description: 'Server Error'
 
 # definitions
 definitions:
-  users:
+  CreateUsersDto:
     type: object
     required:
-        - email
-        - password
+      - email
+      - password
     properties:
       email:
         type: string
@@ -142,7 +205,61 @@ definitions:
       password:
         type: string
         description: user Password
+      fullname:
+        type: string
+        description: user Fullname
+      phone:
+        type: string
+        description: user Phone
+      dob:
+        type: string
+        description: user's date of birth
 
+  LoginDto:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+        
+  CreateProductDto:
+    type: object
+    required:
+     
+    properties:
+      name:
+        type: string
+        description: product Name
+      desc:
+        type: string
+        description: product Description
+      price:
+        type: number
+        description: product Price
+      status:
+        type: ProductStatus
+        description: product Status
+      brand_name:
+        type: string
+        description: product Brandname
+      categories_id:
+        type: string
+        description: product CategoriesId 
+      quantity:
+        type: number
+        description: product Quantity
+      sold:
+        type: number
+        description: product SoldNumber
+      images:
+        type: string[]
+        description: product Image
 schemes:
- - https
- - http
+  - https
+  - http

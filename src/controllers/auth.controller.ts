@@ -43,4 +43,20 @@ export class AuthController {
       next(error);
     }
   };
+
+  public userRoute = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      res.status(200).json({ data: req.user, message: 'you have accessed user route!' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public adminRoute = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      res.status(200).json({ data: req.user, message: 'you have accessed admin route!' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

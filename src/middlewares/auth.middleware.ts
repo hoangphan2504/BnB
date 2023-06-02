@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
 import { DB } from '@database';
 import { HttpException } from '@exceptions/httpException';
-import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
+import { DataStoredInToken, RequestWithUser, Role } from '@interfaces/auth.interface';
 
 const getAuthorization = (req: any) => {
   const coockie = req.cookies['Authorization'];
@@ -21,7 +21,7 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
 
     if (Authorization) {
       const { id } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
-      const findUser = await DB.Users.findByPk(id);
+      const findUser = await DB.Prodcuts.findByPk(id);
 
       if (findUser) {
         req.user = findUser;
@@ -35,4 +35,11 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
   } catch (error) {
     next(new HttpException(401, 'Wrong authentication token'));
   }
+};
+
+export const AdminCheckMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { user } = req;
+
+  if (!user || user.role != Role.ADMIN) next(new HttpException(401, 'Permission denied!'));
+  else next();
 };

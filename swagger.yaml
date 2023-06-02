@@ -227,7 +227,39 @@ definitions:
       password:
         type: string
         description: user Password
-
+        
+  CreateProductDto:
+    type: object
+    required:
+     
+    properties:
+      name:
+        type: string
+        description: product Name
+      desc:
+        type: string
+        description: product Description
+      price:
+        type: number
+        description: product Price
+      status:
+        type: ProductStatus
+        description: product Status
+      brand_name:
+        type: string
+        description: product Brandname
+      categories_id:
+        type: string
+        description: product CategoriesId 
+      quantity:
+        type: number
+        description: product Quantity
+      sold:
+        type: number
+        description: product SoldNumber
+      images:
+        type: string[]
+        description: product Image
 schemes:
   - https
   - http

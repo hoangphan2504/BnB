@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateProductDto } from '@dtos/product.dto';
+import { CreateProductDto } from '@/dtos/products.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Product } from '@interfaces/products.interface';
 

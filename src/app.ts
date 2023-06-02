@@ -47,7 +47,7 @@ export class App {
 
   private connectToDatabase() {
     DB.sequelize
-      .sync({ alter: true, force: true })
+      .sync({ alter: true })
       .then(() => {
         logger.info('Database connected!');
       })

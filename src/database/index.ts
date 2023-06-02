@@ -57,7 +57,7 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
     Product,
     Categories,
     Order,
-    Prodcuts: User,
+    User,
   };
 };
 

@@ -36,24 +36,20 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
 sequelize.authenticate();
 
 const initAllModels = (sequelize: Sequelize.Sequelize) => {
-  const Reviews = ReviewsModel(sequelize);
   const OrderItem = OrderItemModel(sequelize);
+  const Reviews = ReviewsModel(sequelize);
   const Product = ProductModel(sequelize);
   const Categories = CategoriesModel(sequelize);
   const Order = OrderModel(sequelize);
   const User = UserModel(sequelize);
 
-  Product.hasMany(OrderItem, { foreignKey: 'productId' });
-  OrderItem.belongsTo(Product, { foreignKey: 'productId' });
-
   Order.hasMany(OrderItem, { foreignKey: 'orderId' });
-  OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
   Product.hasMany(Reviews, { foreignKey: 'productId' });
-  Reviews.belongsTo(Product, { foreignKey: 'productId' });
+
+  Product.hasMany(OrderItem, { foreignKey: 'productId' });
 
   User.hasMany(Order, { foreignKey: 'userId' });
-  Order.belongsTo(User, { foreignKey: 'userId' });
 
   return {
     Reviews,

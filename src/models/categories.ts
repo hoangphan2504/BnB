@@ -1,6 +1,5 @@
 import { Categories } from '@/interfaces/categories.interface';
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { ProductModel } from './products';
 
 export type CategoriesCreationAttributes = Optional<Categories, 'id'>;
 

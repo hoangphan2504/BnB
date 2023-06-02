@@ -6,7 +6,6 @@ export type ReviewsCreationAttributes = Optional<Reviews, 'id'>;
 export class ReviewsModel extends Model<Reviews, ReviewsCreationAttributes> implements Reviews {
   public id: number;
   public userId: number;
-  public productId: number;
   public content: string;
   public rating: number;
 
@@ -23,10 +22,6 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
         type: DataTypes.INTEGER,
       },
       userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      productId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },

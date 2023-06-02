@@ -23,11 +23,11 @@ const createCookie = (tokenData: TokenData): string => {
 @Service()
 export class AuthService {
   public async signup(userData: CreateUserDto): Promise<User> {
-    const findUser: User = await DB.User.findOne({ where: { email: userData.email } });
-    if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
+    const findUser: User = await DB.Prodcuts.findOne({ where: { email: userData.name } });
+    if (findUser) throw new HttpException(409, `This email ${userData.name} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await DB.User.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await DB.Prodcuts.create({ ...userData, password: hashedPassword });
 
     return createUserData;
   }

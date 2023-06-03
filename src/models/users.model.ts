@@ -1,7 +1,6 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { User } from '@interfaces/users.interface';
 import { Role } from '@/interfaces/auth.interface';
-import { OrderModel } from './orders';
 
 export type UserCreationAttributes = Optional<User, 'id'>;
 

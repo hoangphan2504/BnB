@@ -50,7 +50,10 @@ export class AuthService {
 
   public async refreshToken(tokenData: RefreshTokenDto): Promise<{ token: string }> {
     const { refreshToken } = tokenData;
-    const { id } = verify(refreshToken, SECRET_KEY) as DataStoredInToken;
+    const { id, type } = verify(refreshToken, SECRET_KEY) as DataStoredInToken;
+
+    if (type !== TokenType.REFRESH) throw new HttpException(403, 'Access permission denied!');
+
     const findUser = await DB.User.findByPk(id);
 
     const accessTokenExp = 60 * 60;

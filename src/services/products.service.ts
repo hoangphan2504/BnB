@@ -19,7 +19,7 @@ export class ProductService {
   }
 
   public async createProduct(productData: CreateProductDto): Promise<Product> {
-    const findProduct: Product = await DB.Product.findOne({ where: { name: productData.name } });
+    const findProduct = await DB.Product.findOne({ where: { name: productData.name } });
     if (findProduct) throw new HttpException(409, `This product ${productData.name} already exists`);
 
     const createProductData: Product = await DB.Product.create(productData);

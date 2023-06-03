@@ -13,6 +13,15 @@ class Seeder {
   private userService = new UserService();
   private productService = new ProductService();
 
+  private async seedOrders(n: number, user: User) {
+    try {
+      logger.info('Order seeding successfully!');
+    } catch (error) {
+      logger.error('Order seeding error!');
+      throw error;
+    }
+  }
+
   private async seedUsers(n: number) {
     try {
       const creationPromises: Promise<User>[] = [];
@@ -65,15 +74,16 @@ class Seeder {
   }
 
   public async seedAll(opt: SeedAmount) {
-    const { users } = opt;
+    const { users, products } = opt;
     await this.seedUsers(users);
+    await this.SeedProducts(products);
   }
 }
 
 interface SeedAmount {
   users: number;
   products: number;
-  orders: number;
+  ordersPerUser: number;
   itemsPerOrder: number;
   reviewsPerProduct: number;
 }
@@ -83,7 +93,11 @@ interface SeedAmount {
     const seeder = new Seeder();
     await seeder.seedAll({
       users: 10,
-    } as any);
+      products: 30,
+      ordersPerUser: 5,
+      itemsPerOrder: 5,
+      reviewsPerProduct: 5,
+    });
 
     logger.info('Seeding successfully!');
   } catch (error) {

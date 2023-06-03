@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 import { DB } from '@database';
 import { CreateOrderDto } from '@/dtos/order.dto';

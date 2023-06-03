@@ -6,7 +6,7 @@ import { ValidationMiddleware } from '@middlewares/validation.middleware';
 import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';
 
 export class OrderRoute implements Routes {
-  public path = '/products';
+  public path = '/orders';
   public router = Router();
   public order = new OrderController();
 
@@ -16,9 +16,15 @@ export class OrderRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, AuthMiddleware, this.order.getOrders);
-    this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware ,this.order.getOrderById);
-    this.router.post(`${this.path}`,AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateOrderDto), this.order.createOrder);
-    this.router.put(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateOrderDto, true), this.order.updateOrder);
-    this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware,  this.order.deleteOrder);
+    this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.order.getOrderById);
+    this.router.post(`${this.path}`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateOrderDto), this.order.createOrder);
+    this.router.put(
+      `${this.path}/:id(\\d+)`,
+      AuthMiddleware,
+      AdminCheckMiddleware,
+      ValidationMiddleware(CreateOrderDto, true),
+      this.order.updateOrder,
+    );
+    this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware, this.order.deleteOrder);
   }
 }

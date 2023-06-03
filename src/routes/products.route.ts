@@ -16,9 +16,15 @@ export class ProductRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, AuthMiddleware, this.product.getProducts);
-    this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware ,this.product.getProductById);
-    this.router.post(`${this.path}`,AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateProductDto), this.product.createProduct);
-    this.router.put(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateProductDto, true), this.product.updateProduct);
-    this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware,  this.product.deleteProduct);
+    this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.product.getProductById);
+    this.router.post(`${this.path}`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateProductDto), this.product.createProduct);
+    this.router.put(
+      `${this.path}/:id(\\d+)`,
+      AuthMiddleware,
+      AdminCheckMiddleware,
+      ValidationMiddleware(CreateProductDto, true),
+      this.product.updateProduct,
+    );
+    this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware, this.product.deleteProduct);
   }
 }

@@ -6,7 +6,9 @@ export type OrderItemCreationAttributes = Optional<OrderItem, 'id'>;
 export class OrderItemModel extends Model<OrderItem, OrderItemCreationAttributes> implements OrderItem {
   public id: number;
   public quantity: number;
-
+  public orderId: number;
+  public productId: number;
+  
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
@@ -24,6 +26,14 @@ const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      orderId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      productId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      }
     },
     {
       tableName: 'order_items',

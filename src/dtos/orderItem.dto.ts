@@ -4,16 +4,16 @@ import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, 
 
 export class CreateOrderItemDto {
   @IsNotEmpty()
-  public id: Number;
+  public id: number;
 
   @IsNotEmpty()
-  public productId: Number;
+  public productId: number;
 
   @IsNotEmpty()
-  public orderId: Number;
+  public orderId: number;
 
   @IsNotEmpty()
-  public quantity: Number;
+  public quantity: number;
 
 }
 

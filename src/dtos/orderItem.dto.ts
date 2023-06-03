@@ -1,6 +1,4 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, IsOptional } from 'class-validator';
-
-
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateOrderItemDto {
   @IsNotEmpty()
@@ -14,6 +12,4 @@ export class CreateOrderItemDto {
 
   @IsNotEmpty()
   public quantity: Number;
-
 }
-

@@ -1,19 +1,20 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
-
-
-export class CreateOrderDto {
-  @IsNotEmpty()
-  public id: Number;
-
-  @IsNotEmpty()
-  public userId: Number;
-
-  @IsNotEmpty()
-  public totalPrices: Number;
+class ProductItem {
+  @IsNumber()
+  public productId: number;
 
   @IsNumber()
-  public price: number;
-
+  public quantity: number;
 }
 
+export class CreateOrderDto {
+  @IsNumber()
+  @IsOptional()
+  public price: number;
+
+  @ValidateNested()
+  @Type(() => ProductItem)
+  public products: ProductItem[];
+}

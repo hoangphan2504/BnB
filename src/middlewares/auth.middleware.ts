@@ -6,9 +6,6 @@ import { HttpException } from '@exceptions/httpException';
 import { DataStoredInToken, RequestWithUser, Role, TokenType } from '@interfaces/auth.interface';
 
 const getAuthorization = (req: any) => {
-  // const coockie = req.cookies['Authorization'];
-  // if (coockie) return coockie;
-
   const header = req.header('Authorization');
   if (header) return header.split('Bearer ')[1];
 
@@ -24,7 +21,9 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       if (type !== TokenType.ACCESS) {
         next(new HttpException(403, 'Access permission denied'));
       }
+
       const findUser = await DB.User.findByPk(id);
+      console.log('login user', findUser.dataValues);
 
       if (findUser) {
         req.user = findUser;
@@ -36,13 +35,14 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       next(new HttpException(404, 'Authentication token missing'));
     }
   } catch (error) {
+    console.log(error);
     next(new HttpException(401, 'Wrong authentication token'));
   }
 };
 
 export const AdminCheckMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { user } = req;
-
-  if (!user || user.role != Role.ADMIN) next(new HttpException(401, 'Permission denied!'));
-  else next();
+  if (user.getDataValue('role') == Role.ADMIN) {
+    next();
+  } else next(new HttpException(403, 'Access permission denied'));
 };

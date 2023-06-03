@@ -12,4 +12,5 @@ export interface Order {
   id?: Number;
   totalPrices: Number;
   status: OrderStatus;
+  userId: Number;
 }

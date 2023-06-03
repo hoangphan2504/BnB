@@ -32,6 +32,7 @@ export class App {
   }
 
   public listen() {
+    console.log(this.port);
     this.app.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);

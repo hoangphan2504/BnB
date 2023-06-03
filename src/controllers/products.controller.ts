@@ -20,7 +20,7 @@ export class ProductController {
   public getProductById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productId = Number(req.params.id);
-      const findOneProductData: Product = await this.product.findProductById(productId);
+      const findOneProductData: Product = await this.product.findOrderById(productId);
 
       res.status(200).json({ data: findOneProductData, message: 'findOne' });
     } catch (error) {
@@ -31,7 +31,7 @@ export class ProductController {
   public createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productData: CreateProductDto = req.body;
-      const createUserData: Product = await this.product.createProduct(productData);
+      const createUserData: Product = await this.product.createOrder(productData);
 
       res.status(201).json({ data: createUserData, message: 'created' });
     } catch (error) {

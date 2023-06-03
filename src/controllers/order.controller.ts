@@ -7,7 +7,7 @@ import { OrderService } from '@services/order.service';
 export class OrderController {
   public order = Container.get(OrderService);
 
-  public getOrder = async (req: Request, res: Response, next: NextFunction) => {
+  public getOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const findAllOrdersData: Order[] = await this.order.findAllOrders();
 
@@ -39,26 +39,26 @@ export class OrderController {
     }
   };
 
-//   public updateProduct = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const productId = Number(req.params.id);
-//       const productData: CreateOrderDto = req.body;
-//       const updateProductData: Order = await this.order.updateOrder(productId, productData);
+  public updateOrder = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const orderId = Number(req.params.id);
+      const orderData: CreateOrderDto = req.body;
+      const updateorderData: Order = await this.order.updateOrder(orderId, orderData);
 
-//       res.status(200).json({ data: updateProductData, message: 'updated' });
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
+      res.status(200).json({ data: updateorderData, message: 'updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-//   public deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const productId = Number(req.params.id);
-//       const deleteProductData: Order = await this.order.deleteOrder(productId);
+  public deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const orderId = Number(req.params.id);
+      const deleteOrderData: Order = await this.order.deleteOrder(orderId);
 
-//       res.status(200).json({ data: deleteProductData, message: 'deleted' });
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
+      res.status(200).json({ data: deleteOrderData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
  }

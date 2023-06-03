@@ -6,6 +6,9 @@ import { Product } from '@interfaces/products.interface';
 
 @Service()
 export class ProductService {
+  createProduct(productData: CreateProductDto): Product | PromiseLike<Product> {
+    throw new Error('Method not implemented.');
+  }
   public async findAllProducts(): Promise<Product[]> {
     const allProducts: Product[] = await DB.Product.findAll();
     return allProducts;

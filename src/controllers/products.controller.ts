@@ -31,9 +31,9 @@ export class ProductController {
   public createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productData: CreateProductDto = req.body;
-      const createUserData: Product = await this.product.createOrder(productData);
+      const createProductData: Product = await this.product.createProduct(productData);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
+      res.status(201).json({ data: createProductData, message: 'created' });
     } catch (error) {
       next(error);
     }

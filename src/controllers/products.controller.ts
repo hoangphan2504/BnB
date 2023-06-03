@@ -20,7 +20,7 @@ export class ProductController {
   public getProductById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productId = Number(req.params.id);
-      const findOneProductData: Product = await this.product.findOrderById(productId);
+      const findOneProductData: Product = await this.product.findProductById(productId);
 
       res.status(200).json({ data: findOneProductData, message: 'findOne' });
     } catch (error) {

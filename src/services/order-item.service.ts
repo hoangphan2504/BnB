@@ -7,7 +7,7 @@ import { OrderItem } from '@interfaces/order-items.interface';
 @Service()
 export class OrderItemService {
   findAllOrdersItem(): OrderItem[] | PromiseLike<OrderItem[]> {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
   public async findAllOrders(): Promise<OrderItem[]> {
     const allOrdersItem: OrderItem[] = await DB.OrderItem.findAll();

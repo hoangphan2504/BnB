@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
-import {  CreateOrderItemDto } from '@/dtos/orderItem.dto';
+import { CreateOrderItemDto } from '@/dtos/orderItem.dto';
 import { OrderItem } from '@interfaces/order-items.interface';
-import { OrderItemService } from '@services/orrder-item.service';
+import { OrderItemService } from '@/services/order-item.service';
 
 export class OrderItemController {
   public order = Container.get(OrderItemService);
@@ -61,4 +61,4 @@ export class OrderItemController {
       next(error);
     }
   };
- }
+}

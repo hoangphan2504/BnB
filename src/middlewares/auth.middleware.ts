@@ -25,6 +25,8 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       const findUser = await DB.User.findByPk(id);
       console.log('login user', findUser.dataValues);
 
+      if (findUser.dataValues.isActive == false) next(new HttpException(403, 'This account is disabled!'));
+
       if (findUser) {
         req.user = findUser;
         next();

@@ -71,4 +71,38 @@ export class UserController {
       next(error);
     }
   };
+
+  public updatePassword = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const { user } = req;
+      const updatePasswordData = await this.user.updatePassword(user.getDataValue('id'), req.body);
+
+      res.status(200).json({ data: updatePasswordData, message: 'password updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const updateProfileData = await this.user.updateUser(req.user.getDataValue('id'), req.body);
+
+      res.status(200).json({ data: updateProfileData, message: 'profile updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateUserStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.id);
+      const userStatus = req.params['isActive'] == '1';
+
+      const updateUserStatusData = await this.user.updateUserStatus(userId, userStatus);
+
+      res.status(200).json({ data: updateUserStatusData, message: 'user status updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

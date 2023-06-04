@@ -20,9 +20,10 @@ export class CreateUserDto {
   @IsOptional()
   public phone: string;
 
-  @IsDate()
+  @IsString()
   @IsOptional()
   public dob: Date;
+
 }
 
 export class UpdateUserDto {
@@ -42,7 +43,7 @@ export class UpdateUserDto {
   @IsOptional()
   public phone: string;
 
-  @IsDate()
+  @IsString()
   @IsOptional()
   public dob: Date;
 }

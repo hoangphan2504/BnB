@@ -347,6 +347,107 @@ paths:
         500:
           description: 'Server Error'
 
+  /reviews:
+    # [GET] reviews
+    get:
+      tags:
+        - reviews
+      summary: Find All Products
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] reviews
+    post:
+      tags:
+        - reviews
+      summary: Add Review
+      parameters:
+        - name: body
+          in: body
+          description: review data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateReviewDto'
+
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+    # [GET] reviews/id
+    /reviews/{id}:
+      get:
+        tags:
+          - reviews
+        summary: Find Review By Id
+        parameters:
+          - name: id
+            in: path
+            description: review Id
+            required: true
+            type: integer
+        responses:
+          200:
+            description: 'OK'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
+
+      # [PUT] reviews/id
+      put:
+        tags:
+          - reviews
+        summary: Update Review By Id
+        parameters:
+          - name: id
+            in: path
+            description: review Id
+            required: true
+            type: integer
+          - name: body
+            in: body
+            description: review Data
+            required: true
+            schema:
+              $ref: '#/definitions/CreateReviewDto'
+        responses:
+          200:
+            description: 'OK'
+          400:
+            description: 'Bad Request'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
+
+      # [DELETE] reviews/id
+      delete:
+        tags:
+          - reviews
+        summary: Delete Review By Id
+        parameters:
+          - name: id
+            in: path
+            description: review Id
+            required: true
+            type: integer
+        responses:
+          200:
+            description: 'OK'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
+    
+
 # definitions
 definitions:
   CreateUsersDto:
@@ -467,6 +568,24 @@ definitions:
           quantity: 2
         - productId: 3
           quantity: 4
+
+  CreateReviewDto:
+    type: object
+    required:
+    properties:
+            content:
+              type: string
+              description: review content
+            rating:
+              type: number
+              description: review rating
+            productId:
+              type: number
+              description: product Id
+    example:
+      content: 'Example conent'
+      rating: 5
+      productId: 1
 
 securityDefinitions:
   JWT:

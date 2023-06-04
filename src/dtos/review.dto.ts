@@ -19,6 +19,10 @@ export class CreateReviewDto {
   @IsNotEmpty()
   @IsString()
   public rating: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public productId: number;
 }
 
 export class UpdateReviewDto {
@@ -30,6 +34,10 @@ export class UpdateReviewDto {
   @IsNumber()
   @IsOptional()
   public rating: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public productId: number;
 
   
 }

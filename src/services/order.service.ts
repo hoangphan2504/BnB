@@ -3,6 +3,7 @@ import { DB } from '@database';
 import { CreateOrderDto } from '@/dtos/order.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Order } from '@interfaces/orders.interface';
+import { OrderItem } from '@/interfaces/order-items.interface';
 
 @Service()
 export class OrderService {
@@ -21,12 +22,29 @@ export class OrderService {
   public async createOrder(orderData: CreateOrderDto, userId: number): Promise<Order> {
     try {
       console.log(orderData, userId);
-      const createProductData: Order = await DB.Order.create({
-        userId,
-        totalPrices: 0,
+      const result = await DB.sequelize.transaction(async t => {
+        const createdOrder: Order = await DB.Order.create(
+          {
+            userId,
+            totalPrices: 0,
+          },
+          { transaction: t },
+        );
+
+        const orderItems: OrderItem[] = orderData.products.map(item => {
+          return {
+            productId: item.productId,
+            orderId: createdOrder.id,
+            quantity: item.quantity,
+          };
+        });
+
+        await DB.OrderItem.bulkCreate(orderItems, { transaction: t });
+
+        return createdOrder;
       });
 
-      return createProductData;
+      return result;
     } catch (error) {
       console.log(error);
       throw error;

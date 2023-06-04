@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
 
 class ProductItem {
   @IsNumber()

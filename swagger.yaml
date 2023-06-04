@@ -224,6 +224,8 @@ paths:
       tags:
         - products
       summary: Add Product
+      security:
+        - JWT: []
       parameters:
         - name: body
           in: body
@@ -267,6 +269,8 @@ paths:
       tags:
         - products
       summary: Update Product By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -294,6 +298,8 @@ paths:
       tags:
         - products
       summary: Delete Product By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path

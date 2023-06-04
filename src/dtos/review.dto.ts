@@ -1,20 +1,17 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, IsOptional } from 'class-validator';
-
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateReviewDto {
   @IsNumber()
   @IsNotEmpty()
   public id: number;
-  
+
   @IsNumber()
   @IsNotEmpty()
   public userId: number;
 
-
   @IsString()
   @IsNotEmpty()
   public content: string;
-
 
   @IsNotEmpty()
   @IsString()
@@ -30,6 +27,4 @@ export class UpdateReviewDto {
   @IsNumber()
   @IsOptional()
   public rating: number;
-
-  
 }

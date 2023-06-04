@@ -3,7 +3,7 @@ import { OrderController } from '@/controllers/order.controller';
 import { CreateOrderDto } from '@/dtos/order.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
-import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';
+import { AuthMiddleware } from '@/middlewares/auth.middleware';
 
 export class OrderRoute implements Routes {
   public path = '/orders';
@@ -17,10 +17,11 @@ export class OrderRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, AuthMiddleware, this.order.getOrders);
     this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.order.getOrderById);
-    this.router.post(`${this.path}`, AuthMiddleware, ValidationMiddleware(CreateOrderDto), this.order.createOrder);
+    this.router.post(`${this.path}`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateOrderDto), this.order.createOrder);
     this.router.put(
       `${this.path}/:id(\\d+)`,
       AuthMiddleware,
+      AdminCheckMiddleware,
       ValidationMiddleware(CreateOrderDto, true),
       this.order.updateOrder,
     );

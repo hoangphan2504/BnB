@@ -1,7 +1,7 @@
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, UpdatePasswordDto, UpdateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { User } from '@interfaces/users.interface';
 
@@ -28,12 +28,11 @@ export class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: number, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userId: number, userData: UpdateUserDto): Promise<User> {
     const findUser: User = await DB.User.findByPk(userId);
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
-    const hashedPassword = await hash(userData.password, 10);
-    await DB.User.update({ ...userData, password: hashedPassword }, { where: { id: userId } });
+    await DB.User.update({ ...userData }, { where: { id: userId } });
 
     const updateUser: User = await DB.User.findByPk(userId);
     return updateUser;
@@ -46,5 +45,28 @@ export class UserService {
     await DB.User.destroy({ where: { id: userId } });
 
     return findUser;
+  }
+
+  public async updatePassword(userId: number, dto: UpdatePasswordDto): Promise<User> {
+    const findUser: User = await DB.User.findByPk(userId);
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    const { oldPassword, newPassword } = dto;
+
+    const isPasswordMatching = await compare(oldPassword, findUser.password);
+    if (!isPasswordMatching) throw new HttpException(409, "Current password doesn't match");
+
+    const hashedPassword = await hash(newPassword, 10);
+    await DB.User.update({ password: hashedPassword }, { where: { id: userId } });
+
+    return findUser;
+  }
+
+  public async updateUserStatus(userId: number, isActive: boolean): Promise<User> {
+    const findUser: User = await DB.User.findByPk(userId);
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
+
+    await DB.User.update({ isActive }, { where: { id: userId } });
+    const updateUser: User = await DB.User.findByPk(userId);
+    return updateUser;
   }
 }

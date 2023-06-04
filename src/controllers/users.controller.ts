@@ -3,9 +3,19 @@ import { Container } from 'typedi';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import { UserService } from '@services/users.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 export class UserController {
   public user = Container.get(UserService);
+
+  public getProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const findUser = req.user.dataValues;
+      res.status(200).json({ data: findUser, message: 'success' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -57,6 +67,40 @@ export class UserController {
       const deleteUserData: User = await this.user.deleteUser(userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updatePassword = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const { user } = req;
+      const updatePasswordData = await this.user.updatePassword(user.getDataValue('id'), req.body);
+
+      res.status(200).json({ data: updatePasswordData, message: 'password updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const updateProfileData = await this.user.updateUser(req.user.getDataValue('id'), req.body);
+
+      res.status(200).json({ data: updateProfileData, message: 'profile updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateUserStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.id);
+      const userStatus = req.params['isActive'] == '1';
+
+      const updateUserStatusData = await this.user.updateUserStatus(userId, userStatus);
+
+      res.status(200).json({ data: updateUserStatusData, message: 'user status updated' });
     } catch (error) {
       next(error);
     }

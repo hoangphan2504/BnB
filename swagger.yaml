@@ -45,6 +45,42 @@ paths:
         500:
           description: 'Server Error'
 
+  /users/profile:
+    get:
+      tags:
+        - users
+      summary: Get User Profile
+      security:
+        - JWT: []
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    put:
+      tags:
+        - users
+      summary: Update User Profile
+      security:
+        - JWT: []
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateUserDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
   # [GET] users/id
   /users/{id}:
     get:
@@ -85,7 +121,7 @@ paths:
           description: user Data
           required: true
           schema:
-            $ref: '#/definitions/CreateUsersDto'
+            $ref: '#/definitions/UpdateUserDto'
       responses:
         200:
           description: 'OK'
@@ -112,6 +148,59 @@ paths:
       responses:
         200:
           description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  /users/change-password:
+    patch:
+      tags:
+        - users
+      summary: Change User Password
+      security:
+        - JWT: []
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/ChangePasswordDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  /users/change-status/{id}/{isActive}:
+    patch:
+      tags:
+        - users
+      summary: Change User Status
+      security:
+        - JWT: []
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          type: integer
+        - name: isActive
+          in: path
+          description: user status
+          type: enum
+          enum:
+            - 1
+            - 0
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
         409:
           description: 'Conflict'
         500:
@@ -224,6 +313,8 @@ paths:
       tags:
         - products
       summary: Add Product
+      security:
+        - JWT: []
       parameters:
         - name: body
           in: body
@@ -267,6 +358,8 @@ paths:
       tags:
         - products
       summary: Update Product By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -294,6 +387,8 @@ paths:
       tags:
         - products
       summary: Delete Product By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -471,6 +566,29 @@ definitions:
       dob:
         type: string
         description: user's date of birth
+    example:
+      email: 'email.example.com@mail.vn'
+      password: '123456'
+      fullname: 'Example Fullname'
+      phone: '0123456789'
+      dob: '01/01/2000'
+
+  UpdateUserDto:
+    type: object
+    properties:
+      fullname:
+        type: string
+        description: user Fullname
+      phone:
+        type: string
+        description: user Phone
+      dob:
+        type: string
+        description: user's date of birth
+    example:
+      fullname: 'Example Fullname'
+      phone: '0123456789'
+      dob: '01/01/2000'
 
   LoginDto:
     type: object
@@ -569,6 +687,7 @@ definitions:
         - productId: 3
           quantity: 4
 
+<<<<<<< HEAD
   CreateReviewDto:
     type: object
     required:
@@ -586,12 +705,30 @@ definitions:
       content: 'Example conent'
       rating: 5
       productId: 1
+=======
+  ChangePasswordDto:
+    type: object
+    required:
+      - oldPassword
+      - newPassword
+    properties:
+      oldPassword:
+        type: string
+        description: user Old Password
+      newPassword:
+        type: string
+        description: user New Password
+    example:
+      oldPassword: '123456'
+      newPassword: '654321'
+>>>>>>> d19ad1eb688285e3da26f1fffa452c87bab9d597
 
 securityDefinitions:
   JWT:
     type: apiKey
     name: Authorization
     in: header
+    scheme: bearer
     description: Bearer Token
 
 schemes:

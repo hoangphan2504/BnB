@@ -3,9 +3,19 @@ import { Container } from 'typedi';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import { UserService } from '@services/users.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 export class UserController {
   public user = Container.get(UserService);
+
+  public getProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const findUser = req.user.dataValues;
+      res.status(200).json({ data: findUser, message: 'success' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {

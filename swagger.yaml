@@ -45,6 +45,19 @@ paths:
         500:
           description: 'Server Error'
 
+  /users/profile:
+    get:
+      tags:
+        - users
+      summary: Find User Profile
+      security:
+        - JWT: []
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
   # [GET] users/id
   /users/{id}:
     get:

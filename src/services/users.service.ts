@@ -8,7 +8,7 @@ import { User } from '@interfaces/users.interface';
 @Service()
 export class UserService {
   public async findAllUser(): Promise<User[]> {
-    const allUser: User[] = await DB.User.findAll();
+    const allUser: User[] = await DB.User.findAll({ include: [DB.Order] });
     return allUser;
   }
 

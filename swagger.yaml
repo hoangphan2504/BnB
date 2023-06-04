@@ -13,6 +13,8 @@ paths:
       tags:
         - users
       summary: Find All Users
+      security:
+        - JWT: []
       responses:
         200:
           description: 'OK'
@@ -24,6 +26,8 @@ paths:
       tags:
         - users
       summary: Add User
+      security:
+        - JWT: []
       parameters:
         - name: body
           in: body
@@ -47,6 +51,8 @@ paths:
       tags:
         - users
       summary: Find User By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -66,6 +72,8 @@ paths:
       tags:
         - users
       summary: Update User By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -93,6 +101,8 @@ paths:
       tags:
         - users
       summary: Delete User By Id
+      security:
+        - JWT: []
       parameters:
         - name: id
           in: path
@@ -175,6 +185,8 @@ paths:
       tags:
         - auth
       summary: user route for authorization testing
+      security:
+        - JWT: []
       responses:
         200:
           description: 'OK'
@@ -184,6 +196,8 @@ paths:
   # [GET] admin route
   /auth/admin:
     get:
+      security:
+        - JWT: []
       tags:
         - auth
       summary: admin route for authorization testing
@@ -294,6 +308,45 @@ paths:
         500:
           description: 'Server Error'
 
+  /orders:
+    # [GET] orders
+    get:
+      tags:
+        - orders
+      summary: Find All Orders
+      security:
+        - JWT: []
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] orders
+    post:
+      tags:
+        - orders
+      summary: Add Order
+      security:
+        - JWT: []
+      parameters:
+        - name: body
+          in: body
+          description: order data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateOrderDto'
+
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   CreateUsersDto:
@@ -386,6 +439,41 @@ definitions:
       images:
         - 'https://example.com/image1.jpg'
         - 'https://example.com/image2.jpg'
+
+  CreateOrderDto:
+    type: object
+    required:
+    properties:
+      products:
+        type: array
+        items:
+          type: object
+          required:
+            - productId
+            - quantity
+          properties:
+            productId:
+              type: string
+              description: product id
+            quantity:
+              type: number
+              description: product Quantity
+
+    example:
+      products:
+        - productId: 1
+          quantity: 1
+        - productId: 2
+          quantity: 2
+        - productId: 3
+          quantity: 4
+
+securityDefinitions:
+  JWT:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: Bearer Token
 
 schemes:
   - https

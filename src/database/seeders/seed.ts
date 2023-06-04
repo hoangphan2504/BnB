@@ -1,6 +1,5 @@
 import { logger } from '@/utils/logger';
 import { DB } from '..';
-import Container from 'typedi';
 import { UserService } from '@/services/users.service';
 import { User } from '@/interfaces/users.interface';
 import { faker } from '@faker-js/faker';
@@ -30,7 +29,7 @@ class Seeder {
         const newUser: CreateUserDto = {
           fullname: faker.person.fullName(),
           email: faker.internet.email(),
-          password: faker.internet.password(),
+          password: '123456',
           phone: faker.phone.number('+84 ## ### ## ##'),
           dob: faker.date.past(),
         };

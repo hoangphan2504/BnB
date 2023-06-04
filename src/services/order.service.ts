@@ -18,19 +18,26 @@ export class OrderService {
     return findOrder;
   }
 
-  public async createOrder(orderData: CreateOrderDto): Promise<Order> {
-    const findOrder: Order = await DB.Order.findOne({ where: { id: orderData.id } });
-    if (findOrder) throw new HttpException(409, `This order ${orderData.id} already exists`);
+  public async createOrder(orderData: CreateOrderDto, userId: number): Promise<Order> {
+    try {
+      console.log(orderData, userId);
+      const createProductData: Order = await DB.Order.create({
+        userId,
+        totalPrices: 0,
+      });
 
-    const createProductData: Order = await DB.Order.create(orderData);
-    return createProductData;
+      return createProductData;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 
   public async updateOrder(orderId: number, orderData: CreateOrderDto): Promise<Order> {
     const findOrder: Order = await DB.Order.findByPk(orderId);
     if (!findOrder) throw new HttpException(409, "Order doesn't exist");
 
-    await DB.Order.update(orderData, { where: { id: orderId } });
+    // await DB.Order.update(orderData, { where: { id: orderId } });
 
     const updatedOrder: Order = await DB.Order.findByPk(orderId);
     return updatedOrder;

@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { User } from '@interfaces/users.interface';
+import { UserModel } from '@/models/users.model';
 
 export enum Role {
   ADMIN = 'admin',
@@ -26,5 +27,5 @@ export interface TokenPayload {
 }
 
 export interface RequestWithUser extends Request {
-  user: User;
+  user: UserModel;
 }

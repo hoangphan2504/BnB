@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
-import {  CreateOrderDto } from '@/dtos/order.dto';
+import { CreateOrderDto } from '@/dtos/order.dto';
 import { Order } from '@interfaces/orders.interface';
 import { OrderService } from '@services/order.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 export class OrderController {
   public order = Container.get(OrderService);
@@ -28,10 +29,10 @@ export class OrderController {
     }
   };
 
-  public createOrder = async (req: Request, res: Response, next: NextFunction) => {
+  public createOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const orderData: CreateOrderDto = req.body;
-      const createOrderData: Order = await this.order.createOrder(orderData);
+      const createOrderData: Order = await this.order.createOrder(orderData, req.user.getDataValue('id'));
 
       res.status(201).json({ data: createOrderData, message: 'created' });
     } catch (error) {
@@ -61,4 +62,4 @@ export class OrderController {
       next(error);
     }
   };
- }
+}

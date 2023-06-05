@@ -642,10 +642,10 @@ definitions:
           - PAID
           - UNPAID
         description: product status
-      brand_name:
+      brandName:
         type: string
         description: product Brandname
-      categories_id:
+      categoryId:
         type: string
         description: product CategoriesId
       quantity:
@@ -665,8 +665,8 @@ definitions:
       desc: 'Example Description'
       price: 19.99
       status: 'PENDING'
-      brand_name: 'Example Brand'
-      categories_id: '12345'
+      brandName: 'Example Brand'
+      categoryId: 1
       quantity: 10
       sold: 0
       images:

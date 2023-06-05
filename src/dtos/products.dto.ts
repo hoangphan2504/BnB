@@ -30,7 +30,7 @@ export class CreateProductDto {
   public brandName: string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   public categoryId?: number;
 
   @IsNumber()
@@ -67,10 +67,9 @@ export class UpdateProductDto {
   @IsNotEmpty()
   public brandName: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  @IsNotEmpty()
-  public categoryId: string;
+  public categoryId?: number;
 
   @IsNumber()
   @IsOptional()

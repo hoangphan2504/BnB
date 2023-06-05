@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
-import { CreateOrderDto } from '@/dtos/order.dto';
+import { CreateOrderDto } from '@/dtos/orders.dto';
 import { Order } from '@interfaces/orders.interface';
-import { OrderService } from '@services/order.service';
+import { OrderService } from '@/services/orders.service';
 import { RequestWithUser, Role } from '@/interfaces/auth.interface';
 
 export class OrderController {

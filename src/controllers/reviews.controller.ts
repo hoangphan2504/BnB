@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
-import { CreateReviewDto } from '@/dtos/review.dto';
+import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { Reviews } from '@interfaces/reviews.interface';
 import { ReviewService } from '@/services/reviews.service';
 

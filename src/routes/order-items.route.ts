@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { OrderItemController } from '@/controllers/order-items.controller';
-import { CreateOrderItemDto } from '@/dtos/orderItem.dto';
+import { CreateOrderItemDto } from '@/dtos/order-items.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
 import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';

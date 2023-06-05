@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateReviewDto } from '@/dtos/review.dto';
+import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Reviews } from '@interfaces/reviews.interface';
 

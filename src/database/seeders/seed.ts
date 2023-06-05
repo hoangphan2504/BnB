@@ -7,10 +7,10 @@ import { CreateUserDto } from '@/dtos/users.dto';
 import { Product, ProductStatus } from '@/interfaces/products.interface';
 import { CreateProductDto } from '@/dtos/products.dto';
 import { ProductService } from '@/services/products.service';
-import { OrderService } from '@/services/order.service';
-import { CreateOrderDto, ProductItem } from '@/dtos/order.dto';
+import { OrderService } from '@/services/orders.service';
+import { CreateOrderDto, ProductItem } from '@/dtos/orders.dto';
 import { ReviewService } from '@/services/reviews.service';
-import { CreateReviewDto } from '@/dtos/review.dto';
+import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { CategoryService } from '@/services/categories.service';
 
 interface SeedAmount {

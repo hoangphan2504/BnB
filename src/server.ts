@@ -3,8 +3,8 @@ import { AuthRoute } from '@routes/auth.route';
 import { UserRoute } from '@routes/users.route';
 import { ValidateEnv } from '@utils/validateEnv';
 import { ProductRoute } from './routes/products.route';
-import { OrderRoute } from './routes/order.route';
-import { ReviewRoute } from './routes/review.route';
+import { OrderRoute } from './routes/orders.route';
+import { ReviewRoute } from './routes/reviews.route';
 import { CategoryRoute } from './routes/categories.route';
 
 ValidateEnv();

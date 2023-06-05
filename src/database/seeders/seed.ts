@@ -48,6 +48,7 @@ class Seeder {
 
                 return { productId, quantity };
               });
+
             const dto: CreateOrderDto = {
               products: productItems,
             };
@@ -98,7 +99,7 @@ class Seeder {
         const newProducts: CreateProductDto = {
           name: faker.commerce.productName(),
           desc: faker.commerce.productDescription(),
-          price: Number(faker.commerce.price()),
+          price: Number(faker.commerce.price({ max: 1000000 })),
           status: ProductStatus.PENDING,
           brandName: faker.company.name(),
           quantity: faker.number.int({ min: 30, max: 100 }),

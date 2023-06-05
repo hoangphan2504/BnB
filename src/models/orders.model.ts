@@ -4,7 +4,6 @@ import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 export type OrderCreationAttributes = Optional<Order, 'id'>;
 export class OrderModel extends Model<Order, OrderCreationAttributes> implements Order {
   public id: number;
-  public totalPrices: number;
   public status: OrderStatus;
   public userId: number;
 

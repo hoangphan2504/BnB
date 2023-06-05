@@ -335,6 +335,7 @@ paths:
 
   # [GET] products/id
   /products/{id}:
+  
     get:
       tags:
         - products
@@ -442,9 +443,11 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] reviews
   /reviews:
-    # [GET] reviews
     get:
+      security:
+        - JWT: []
       tags:
         - reviews
       summary: Find All Products
@@ -459,6 +462,8 @@ paths:
       tags:
         - reviews
       summary: Add Review
+      security:
+        - JWT: []
       parameters:
         - name: body
           in: body
@@ -477,7 +482,9 @@ paths:
         500:
           description: 'Server Error'
     # [GET] reviews/id
-    /reviews/{id}:
+  
+  # [GET] reviews/id
+  /reviews/{id}:
       get:
         tags:
           - reviews
@@ -541,7 +548,55 @@ paths:
             description: 'Conflict'
           500:
             description: 'Server Error'
-    
+  
+  #[GET] order-items
+  /order-items:
+    get:
+      tags:
+        - order-items
+      summary: Find All Order-items
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] products
+    post:
+      tags:
+        - order-items
+      summary: Add order-item
+      security:
+        - JWT: []
+      parameters:
+        - name: body
+          in: body
+          description: order-item data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateOrderItemDto 
+'
+
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  #[GET] order-item/id
+
+
+
+
+
+
+
+
+  
 
 # definitions
 definitions:
@@ -687,7 +742,6 @@ definitions:
         - productId: 3
           quantity: 4
 
-<<<<<<< HEAD
   CreateReviewDto:
     type: object
     required:
@@ -705,7 +759,6 @@ definitions:
       content: 'Example conent'
       rating: 5
       productId: 1
-=======
   ChangePasswordDto:
     type: object
     required:
@@ -721,7 +774,24 @@ definitions:
     example:
       oldPassword: '123456'
       newPassword: '654321'
->>>>>>> d19ad1eb688285e3da26f1fffa452c87bab9d597
+
+  CreateOrderItemDto:
+    type: object
+    required:
+    properties:
+            content:
+              type: string
+              description: review content
+            rating:
+              type: number
+              description: review rating
+            productId:
+              type: number
+              description: product Id
+    example:
+      content: 'Example conent'
+      rating: 5
+      productId: 1
 
 securityDefinitions:
   JWT:

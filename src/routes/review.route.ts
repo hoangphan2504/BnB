@@ -6,7 +6,7 @@ import { ValidationMiddleware } from '@middlewares/validation.middleware';
 import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';
 
 export class ReviewRoute implements Routes {
-  public path = '/products';
+  public path = '/reviews';
   public router = Router();
   public review = new ReviewController();
 

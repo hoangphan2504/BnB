@@ -687,25 +687,24 @@ definitions:
         - productId: 3
           quantity: 4
 
-<<<<<<< HEAD
   CreateReviewDto:
     type: object
     required:
     properties:
-            content:
-              type: string
-              description: review content
-            rating:
-              type: number
-              description: review rating
-            productId:
-              type: number
-              description: product Id
+      content:
+        type: string
+        description: review content
+      rating:
+        type: number
+        description: review rating
+      productId:
+        type: number
+        description: product Id
     example:
       content: 'Example conent'
       rating: 5
       productId: 1
-=======
+      
   ChangePasswordDto:
     type: object
     required:
@@ -721,7 +720,6 @@ definitions:
     example:
       oldPassword: '123456'
       newPassword: '654321'
->>>>>>> d19ad1eb688285e3da26f1fffa452c87bab9d597
 
 securityDefinitions:
   JWT:

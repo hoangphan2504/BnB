@@ -17,6 +17,7 @@ export class OrderService {
       where: {
         userId,
       },
+      include: [DB.OrderItem],
     });
     return allOrders;
   }
@@ -38,13 +39,20 @@ export class OrderService {
           { transaction: t },
         );
 
-        const orderItems: OrderItem[] = orderData.products.map(item => {
-          return {
-            productId: item.productId,
-            orderId: createdOrder.id,
-            quantity: item.quantity,
-          };
-        });
+        const orderItems: OrderItem[] = await Promise.all(
+          orderData.products.map(async item => {
+            const product = await DB.Product.findByPk(item.productId, {
+              transaction: t,
+            });
+
+            return {
+              productId: item.productId,
+              orderId: createdOrder.id,
+              quantity: item.quantity,
+              sumPrice: item.quantity * product.price,
+            };
+          }),
+        );
 
         await DB.OrderItem.bulkCreate(orderItems, { transaction: t });
 

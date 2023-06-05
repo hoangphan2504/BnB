@@ -8,6 +8,7 @@ export class OrderItemModel extends Model<OrderItem, OrderItemCreationAttributes
   public quantity: number;
   public productId: number;
   public orderId: number;
+  public sumPrice: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -33,6 +34,10 @@ const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
       orderId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+      },
+      sumPrice: {
+        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
       },
     },
     {

@@ -50,8 +50,8 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
         type: DataTypes.BOOLEAN,
       },
       role: {
-        defaultValue: Role.USER,
-        type: DataTypes.ENUM('admin', 'user'),
+        defaultValue: Role.CUSTOMER,
+        type: DataTypes.ENUM(Role.ADMIN, Role.CUSTOMER),
       },
     },
     {

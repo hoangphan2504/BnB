@@ -12,6 +12,15 @@ export class OrderService {
     return allOrders;
   }
 
+  public async findAllOrdersByUserId(userId: number): Promise<Order[]> {
+    const allOrders: Order[] = await DB.Order.findAll({
+      where: {
+        userId,
+      },
+    });
+    return allOrders;
+  }
+
   public async findOrderById(orderId: number): Promise<Order> {
     const findOrder: Order = await DB.Order.findByPk(orderId);
     if (!findOrder) throw new HttpException(409, "Order doesn't exist");

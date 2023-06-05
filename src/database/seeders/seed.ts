@@ -9,8 +9,9 @@ import { CreateProductDto } from '@/dtos/products.dto';
 import { ProductService } from '@/services/products.service';
 import { OrderService } from '@/services/order.service';
 import { CreateOrderDto, ProductItem } from '@/dtos/order.dto';
-import { ReviewService } from '@/services/review.service';
+import { ReviewService } from '@/services/reviews.service';
 import { CreateReviewDto } from '@/dtos/review.dto';
+import { CategoryService } from '@/services/categories.service';
 
 interface SeedAmount {
   users: number;
@@ -26,6 +27,7 @@ class Seeder {
   private productService = new ProductService();
   private orderService = new OrderService();
   private reviewService = new ReviewService();
+  private categoryService = new CategoryService();
 
   constructor(amount: SeedAmount) {
     this.seedingAmount = amount;
@@ -98,10 +100,11 @@ class Seeder {
           desc: faker.commerce.productDescription(),
           price: Number(faker.commerce.price()),
           status: ProductStatus.PENDING,
-          brand_name: faker.company.name(),
+          brandName: faker.company.name(),
           quantity: faker.number.int({ min: 30, max: 100 }),
           sold: faker.number.int({ max: 25 }),
           images: [faker.image.urlLoremFlickr(), faker.image.urlPicsumPhotos()],
+          categoryId: faker.number.int({ min: 1, max: 2 }),
         };
 
         creationPromises.push(this.productService.createProduct(newProducts));
@@ -142,8 +145,21 @@ class Seeder {
     }
   }
 
+  private async SeedCategories() {
+    await this.categoryService.CreateCategory({
+      name: 'Perfume',
+      desc: 'Perfume category',
+    });
+
+    await this.categoryService.CreateCategory({
+      name: 'Cosmetis',
+      desc: 'Cosmetis category',
+    });
+  }
+
   public async seedAll() {
     await this.SeedUsers();
+    await this.SeedCategories();
     await this.SeedProducts();
     await this.SeedOrders();
     await this.SeedReviews();

@@ -1,10 +1,9 @@
 import { Request } from 'express';
-import { User } from '@interfaces/users.interface';
 import { UserModel } from '@/models/users.model';
 
 export enum Role {
-  ADMIN = 'admin',
-  USER = 'user',
+  ADMIN = 'ADMIN',
+  CUSTOMER = 'CUSTOMER',
 }
 export enum TokenType {
   REFRESH = 'refresh',

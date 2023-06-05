@@ -3,14 +3,21 @@ import { Container } from 'typedi';
 import { CreateOrderDto } from '@/dtos/order.dto';
 import { Order } from '@interfaces/orders.interface';
 import { OrderService } from '@services/order.service';
-import { RequestWithUser } from '@/interfaces/auth.interface';
+import { RequestWithUser, Role } from '@/interfaces/auth.interface';
 
 export class OrderController {
   public order = Container.get(OrderService);
 
-  public getOrders = async (req: Request, res: Response, next: NextFunction) => {
+  public getOrders = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const findAllOrdersData: Order[] = await this.order.findAllOrders();
+      const { user } = req;
+      let findAllOrdersData: Order[];
+
+      if (user.role === Role.ADMIN) {
+        findAllOrdersData = await this.order.findAllOrders();
+      } else {
+        findAllOrdersData = await this.order.findAllOrdersByUserId(user.id);
+      }
 
       res.status(200).json({ data: findAllOrdersData, message: 'findAll' });
     } catch (error) {

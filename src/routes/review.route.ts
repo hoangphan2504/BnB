@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { ReviewController } from '@/controllers/review.controller';
+import { ReviewController } from '@/controllers/reviews.controller';
 import { CreateReviewDto } from '@/dtos/review.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';

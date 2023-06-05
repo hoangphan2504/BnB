@@ -5,6 +5,8 @@ tags:
     description: auth API
   - name: products
     description: products API
+  - name: categories
+    description: categories API
 
 paths:
   /users:
@@ -477,7 +479,7 @@ paths:
         500:
           description: 'Server Error'
     # [GET] reviews/id
-    /reviews/{id}:
+  /reviews/{id}:
       get:
         tags:
           - reviews
@@ -541,7 +543,19 @@ paths:
             description: 'Conflict'
           500:
             description: 'Server Error'
-    
+
+  /categories:
+    get:
+      tags:
+        - categories
+      security:
+        - JWT: []
+      summary: Find All Categories
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
 
 # definitions
 definitions:
@@ -704,7 +718,7 @@ definitions:
       content: 'Example conent'
       rating: 5
       productId: 1
-      
+
   ChangePasswordDto:
     type: object
     required:

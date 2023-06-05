@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { CreateReviewDto } from '@/dtos/review.dto';
 import { Reviews } from '@interfaces/reviews.interface';
-import { ReviewService } from '@services/review.service';
+import { ReviewService } from '@/services/reviews.service';
 
 export class ReviewController {
   public review = Container.get(ReviewService);

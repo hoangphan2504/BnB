@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { CreateOrderItemDto } from '@/dtos/orderItem.dto';
 import { OrderItem } from '@interfaces/order-items.interface';
-import { OrderItemService } from '@/services/order-item.service';
+import { OrderItemService } from '@/services/order-items.service';
 
 export class OrderItemController {
   public order = Container.get(OrderItemService);

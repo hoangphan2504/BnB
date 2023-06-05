@@ -19,9 +19,6 @@ export class ReviewService {
   }
 
   public async createReview(reviewData: CreateReviewDto): Promise<Reviews> {
-    // const findReview = await DB.Reviews.findOne({ where: { id: reviewData.id } });
-    // if (findReview) throw new HttpException(409, `This review ${reviewData.id} already exists`);
-
     const createReviewData: Reviews = await DB.Reviews.create(reviewData);
     return createReviewData;
   }

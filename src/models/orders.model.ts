@@ -21,11 +21,6 @@ const initModel = (sequelize: Sequelize): typeof OrderModel => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      totalPrices: {
-        allowNull: false,
-        defaultValue: 0,
-        type: DataTypes.INTEGER,
-      },
       status: {
         allowNull: false,
         defaultValue: OrderStatus.PENDING,

@@ -45,9 +45,11 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
 
   Order.hasMany(OrderItem, { foreignKey: 'orderId' });
 
+  Product.hasMany(OrderItem, { foreignKey: 'productId' });
+
   Product.hasMany(Reviews, { foreignKey: 'productId' });
 
-  Product.hasMany(OrderItem, { foreignKey: 'productId' });
+  User.hasMany(Reviews, { foreignKey: 'userId' });
 
   User.hasMany(Order, { foreignKey: 'userId' });
 

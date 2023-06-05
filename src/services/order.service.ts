@@ -21,12 +21,10 @@ export class OrderService {
 
   public async createOrder(orderData: CreateOrderDto, userId: number): Promise<Order> {
     try {
-      console.log(orderData, userId);
       const result = await DB.sequelize.transaction(async t => {
         const createdOrder: Order = await DB.Order.create(
           {
             userId,
-            totalPrices: 0,
           },
           { transaction: t },
         );

@@ -13,6 +13,7 @@ export class UserModel extends Model<User, UserCreationAttributes> implements Us
   public id: number;
   public email: string;
   public password: string;
+  public avatar: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -52,6 +53,10 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
       role: {
         defaultValue: Role.CUSTOMER,
         type: DataTypes.ENUM(Role.ADMIN, Role.CUSTOMER),
+      },
+      avatar: {
+        allowNull: true,
+        type: DataTypes.STRING(255),
       },
     },
     {

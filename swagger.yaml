@@ -480,69 +480,69 @@ paths:
           description: 'Server Error'
     # [GET] reviews/id
   /reviews/{id}:
-      get:
-        tags:
-          - reviews
-        summary: Find Review By Id
-        parameters:
-          - name: id
-            in: path
-            description: review Id
-            required: true
-            type: integer
-        responses:
-          200:
-            description: 'OK'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'
+    get:
+      tags:
+        - reviews
+      summary: Find Review By Id
+      parameters:
+        - name: id
+          in: path
+          description: review Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
-      # [PUT] reviews/id
-      put:
-        tags:
-          - reviews
-        summary: Update Review By Id
-        parameters:
-          - name: id
-            in: path
-            description: review Id
-            required: true
-            type: integer
-          - name: body
-            in: body
-            description: review Data
-            required: true
-            schema:
-              $ref: '#/definitions/CreateReviewDto'
-        responses:
-          200:
-            description: 'OK'
-          400:
-            description: 'Bad Request'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'
+    # [PUT] reviews/id
+    put:
+      tags:
+        - reviews
+      summary: Update Review By Id
+      parameters:
+        - name: id
+          in: path
+          description: review Id
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: review Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateReviewDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
-      # [DELETE] reviews/id
-      delete:
-        tags:
-          - reviews
-        summary: Delete Review By Id
-        parameters:
-          - name: id
-            in: path
-            description: review Id
-            required: true
-            type: integer
-        responses:
-          200:
-            description: 'OK'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'
+    # [DELETE] reviews/id
+    delete:
+      tags:
+        - reviews
+      summary: Delete Review By Id
+      parameters:
+        - name: id
+          in: path
+          description: review Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
   /categories:
     get:
@@ -599,10 +599,14 @@ definitions:
       dob:
         type: string
         description: user's date of birth
+      avatar:
+        type: string
+        description: user's avatar
     example:
       fullname: 'Example Fullname'
       phone: '0123456789'
       dob: '01/01/2000'
+      avatar: 'https://example.com/avatar.png'
 
   LoginDto:
     type: object

@@ -104,7 +104,7 @@ class Seeder {
           brandName: faker.company.name(),
           quantity: faker.number.int({ min: 30, max: 100 }),
           sold: faker.number.int({ max: 25 }),
-          images: [faker.image.urlLoremFlickr(), faker.image.urlPicsumPhotos()],
+          images: [],
           categoryId: faker.number.int({ min: 1, max: 2 }),
         };
 

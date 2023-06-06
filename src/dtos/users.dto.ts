@@ -51,4 +51,8 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   public dob: Date;
+
+  @IsString()
+  @IsOptional()
+  public avatar: string;
 }

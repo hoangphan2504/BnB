@@ -67,10 +67,9 @@ export class UpdateProductDto {
   @IsNotEmpty()
   public brandName: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  @IsNotEmpty()
-  public categoryId: string;
+  public categoryId?: number;
 
   @IsNumber()
   @IsOptional()

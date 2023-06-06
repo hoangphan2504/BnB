@@ -1,6 +1,6 @@
 import { CategoryController } from '@/controllers/categories.controller';
 import { Routes } from '@/interfaces/routes.interface';
-import { AdminCheckMiddleware, AuthMiddleware } from '@/middlewares/auth.middleware';
+import { AuthMiddleware } from '@/middlewares/auth.middleware';
 import { Router } from 'express';
 
 export class CategoryRoute implements Routes {
@@ -13,6 +13,6 @@ export class CategoryRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, AuthMiddleware, AdminCheckMiddleware, this.category.getCategories);
+    this.router.get(`${this.path}`, AuthMiddleware, this.category.getCategories);
   }
 }

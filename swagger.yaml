@@ -487,50 +487,50 @@ paths:
   
   # [GET] reviews/id
   /reviews/{id}:
-      get:
-        tags:
-          - reviews
-        summary: Find Review By Id
-        parameters:
-          - name: id
-            in: path
-            description: review Id
-            required: true
-            type: integer
-        responses:
-          200:
-            description: 'OK'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'
+    get:
+      tags:
+        - reviews
+      summary: Find Review By Id
+      parameters:
+        - name: id
+          in: path
+          description: review Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
-      # [PUT] reviews/id
-      put:
-        tags:
-          - reviews
-        summary: Update Review By Id
-        parameters:
-          - name: id
-            in: path
-            description: review Id
-            required: true
-            type: integer
-          - name: body
-            in: body
-            description: review Data
-            required: true
-            schema:
-              $ref: '#/definitions/CreateReviewDto'
-        responses:
-          200:
-            description: 'OK'
-          400:
-            description: 'Bad Request'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'
+    # [PUT] reviews/id
+    put:
+      tags:
+        - reviews
+      summary: Update Review By Id
+      parameters:
+        - name: id
+          in: path
+          description: review Id
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: review Data
+          required: true
+          schema:
+            $ref: '#/definitions/CreateReviewDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
       # [DELETE] reviews/id
       delete:
@@ -550,13 +550,6 @@ paths:
             description: 'Conflict'
           500:
             description: 'Server Error'
-  
-  #[GET] order-items
-  /order-items:
-    get:
-      tags:
-        - order-items
-      summary: Find All Order-items
 
   /categories:
     get:
@@ -643,10 +636,14 @@ definitions:
       dob:
         type: string
         description: user's date of birth
+      avatar:
+        type: string
+        description: user's avatar
     example:
       fullname: 'Example Fullname'
       phone: '0123456789'
       dob: '01/01/2000'
+      avatar: 'https://example.com/avatar.png'
 
   LoginDto:
     type: object
@@ -689,8 +686,8 @@ definitions:
       brandName:
         type: string
         description: product Brandname
-      categoriesId:
-        type: number
+      categories_id:
+        type: string
         description: product CategoriesId
       quantity:
         type: number
@@ -709,8 +706,8 @@ definitions:
       desc: 'Example Description'
       price: 19.99
       status: 'PENDING'
-      brand_name: 'Example Brand'
-      categories_id: '12345'
+      brandName: 'Example Brand'
+      categoryId: 1
       quantity: 10
       sold: 0
       images:

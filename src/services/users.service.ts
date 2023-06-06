@@ -4,11 +4,39 @@ import { DB } from '@database';
 import { CreateUserDto, UpdatePasswordDto, UpdateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { User } from '@interfaces/users.interface';
+import { Role } from '@/interfaces/auth.interface';
 
 @Service()
 export class UserService {
   public async findAllUser(): Promise<User[]> {
-    const allUser: User[] = await DB.User.findAll({ include: [DB.Order] });
+    const allUser: User[] = await DB.User.findAll({
+      where: { role: Role.CUSTOMER },
+      attributes: {
+        exclude: ['password'],
+        include: [
+          [
+            DB.sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM orders as o 
+              where 
+              o.user_id = UserModel.id
+          )`),
+            'orderCount',
+          ],
+          [
+            DB.sequelize.literal(`(
+              SELECT SUM(oi.sum_price)
+              FROM orders as o
+              left join order_items oi 
+              on oi.order_id = o.id 
+              where o.user_id = UserModel.id
+              group by o.user_id 
+            )`),
+            'totalPayment',
+          ],
+        ],
+      },
+    });
     return allUser;
   }
 

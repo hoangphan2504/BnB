@@ -11,21 +11,31 @@ export class UserService {
   public async findAllUser(): Promise<User[]> {
     const allUser: User[] = await DB.User.findAll({
       where: { role: Role.CUSTOMER },
-      attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: DB.Order,
-          include: [
-            {
-              model: DB.OrderItem,
-              attributes: [[DB.sequelize.fn('SUM', DB.sequelize.col('sum_price')), 'totalPrice']],
-            },
+      attributes: {
+        exclude: ['password'],
+        include: [
+          [
+            DB.sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM orders as o 
+              where 
+              o.user_id = UserModel.id
+          )`),
+            'orderCount',
           ],
-
-          attributes: [[DB.sequelize.fn('COUNT', DB.sequelize.col('OrderModels.id')), 'orderCount']],
-        },
-      ],
-      group: ['id', 'orders.id', 'order_items.id'],
+          [
+            DB.sequelize.literal(`(
+              SELECT SUM(oi.sum_price)
+              FROM orders as o
+              left join order_items oi 
+              on oi.order_id = o.id 
+              where o.user_id = UserModel.id
+              group by o.user_id 
+            )`),
+            'totalPayment',
+          ],
+        ],
+      },
     });
     return allUser;
   }

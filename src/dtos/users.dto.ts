@@ -41,18 +41,18 @@ export class UpdateUserDto {
   @IsString()
   @MaxLength(45)
   @IsOptional()
-  public fullname: string;
+  public fullname?: string;
 
   @IsString()
   @MaxLength(20)
   @IsOptional()
-  public phone: string;
+  public phone?: string;
 
   @IsString()
   @IsOptional()
-  public dob: Date;
+  public dob?: Date;
 
   @IsString()
   @IsOptional()
-  public avatar: string;
+  public avatar?: string;
 }

@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateReviewDto } from '@/dtos/review.dto';
+import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Reviews } from '@interfaces/reviews.interface';
 
@@ -19,9 +19,6 @@ export class ReviewService {
   }
 
   public async createReview(reviewData: CreateReviewDto): Promise<Reviews> {
-    // const findReview = await DB.Reviews.findOne({ where: { id: reviewData.id } });
-    // if (findReview) throw new HttpException(409, `This review ${reviewData.id} already exists`);
-
     const createReviewData: Reviews = await DB.Reviews.create(reviewData);
     return createReviewData;
   }

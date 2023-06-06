@@ -5,6 +5,8 @@ tags:
     description: auth API
   - name: products
     description: products API
+  - name: categories
+    description: categories API
 
 paths:
   /users:
@@ -555,6 +557,14 @@ paths:
       tags:
         - order-items
       summary: Find All Order-items
+
+  /categories:
+    get:
+      tags:
+        - categories
+      security:
+        - JWT: []
+      summary: Find All Categories
       responses:
         200:
           description: 'OK'
@@ -563,7 +573,25 @@ paths:
 
 
   #[GET] order-item/id
-
+  /order-items/{id}:
+  
+    get:
+      tags:
+        - order-items
+      summary: Find order-item By Id
+      parameters:
+        - name: id
+          in: path
+          description: product Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
 
 
@@ -658,11 +686,11 @@ definitions:
           - PAID
           - UNPAID
         description: product status
-      brand_name:
+      brandName:
         type: string
         description: product Brandname
-      categories_id:
-        type: string
+      categoriesId:
+        type: number
         description: product CategoriesId
       quantity:
         type: number
@@ -721,19 +749,20 @@ definitions:
     type: object
     required:
     properties:
-            content:
-              type: string
-              description: review content
-            rating:
-              type: number
-              description: review rating
-            productId:
-              type: number
-              description: product Id
+      content:
+        type: string
+        description: review content
+      rating:
+        type: number
+        description: review rating
+      productId:
+        type: number
+        description: product Id
     example:
       content: 'Example conent'
       rating: 5
       productId: 1
+
   ChangePasswordDto:
     type: object
     required:

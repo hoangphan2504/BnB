@@ -14,8 +14,8 @@ export interface Product {
   desc: string;
   price: number;
   status: ProductStatus;
-  brand_name: string;
-  categories_id: string;
+  brandName: string;
+  categoryId: string;
   quantity: number;
   sold: number;
   images: string[];

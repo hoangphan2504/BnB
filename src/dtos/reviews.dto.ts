@@ -7,6 +7,10 @@ export class CreateReviewDto {
 
   @IsNotEmpty()
   @IsNumber()
+  public userId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   public rating: number;
 
   @IsNotEmpty()
@@ -27,6 +31,4 @@ export class UpdateReviewDto {
   @IsNotEmpty()
   @IsNumber()
   public productId: number;
-
-  
 }

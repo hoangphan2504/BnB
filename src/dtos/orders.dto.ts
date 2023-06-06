@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
 
-class ProductItem {
+export class ProductItem {
   @IsNumber()
   public productId: number;
 
@@ -10,10 +10,6 @@ class ProductItem {
 }
 
 export class CreateOrderDto {
-  @IsNumber()
-  @IsOptional()
-  public price: number;
-
   @ValidateNested()
   @Type(() => ProductItem)
   public products: ProductItem[];

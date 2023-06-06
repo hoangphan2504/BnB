@@ -10,7 +10,6 @@ export enum OrderStatus {
 
 export interface Order {
   id?: number;
-  totalPrices: number;
   status: OrderStatus;
   userId: number;
 }

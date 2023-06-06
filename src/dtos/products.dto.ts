@@ -27,11 +27,11 @@ export class CreateProductDto {
 
   @IsString()
   @IsNotEmpty()
-  public brand_name: string;
+  public brandName: string;
 
   @IsOptional()
-  @IsString()
-  public categories_id?: string;
+  @IsNumber()
+  public categoryId?: number;
 
   @IsNumber()
   public quantity: number;
@@ -65,12 +65,12 @@ export class UpdateProductDto {
   @IsString()
   @IsOptional()
   @IsNotEmpty()
-  public brand_name: string;
+  public brandName: string;
 
   @IsString()
   @IsOptional()
   @IsNotEmpty()
-  public categories_id: string;
+  public categoryId: string;
 
   @IsNumber()
   @IsOptional()

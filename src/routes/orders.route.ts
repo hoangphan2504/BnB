@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { OrderController } from '@/controllers/order.controller';
-import { CreateOrderDto } from '@/dtos/order.dto';
+import { OrderController } from '@/controllers/orders.controller';
+import { CreateOrderDto } from '@/dtos/orders.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
 import { AuthMiddleware } from '@/middlewares/auth.middleware';
@@ -18,12 +18,7 @@ export class OrderRoute implements Routes {
     this.router.get(`${this.path}`, AuthMiddleware, this.order.getOrders);
     this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.order.getOrderById);
     this.router.post(`${this.path}`, AuthMiddleware, ValidationMiddleware(CreateOrderDto), this.order.createOrder);
-    this.router.put(
-      `${this.path}/:id(\\d+)`,
-      AuthMiddleware,
-      ValidationMiddleware(CreateOrderDto, true),
-      this.order.updateOrder,
-    );
+    this.router.put(`${this.path}/:id(\\d+)`, AuthMiddleware, ValidationMiddleware(CreateOrderDto, true), this.order.updateOrder);
     this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, this.order.deleteOrder);
   }
 }

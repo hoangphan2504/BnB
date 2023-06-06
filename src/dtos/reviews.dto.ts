@@ -5,9 +5,9 @@ export class CreateReviewDto {
   @IsNotEmpty()
   public content: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
-  public userId: number;
+  public userId?: number;
 
   @IsNotEmpty()
   @IsNumber()

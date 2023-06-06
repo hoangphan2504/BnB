@@ -33,8 +33,10 @@ export class ReviewController {
     try {
       const reviewData: CreateReviewDto = req.body;
       reviewData.userId = req.user.id;
-      const createReviewData: Reviews = await this.review.createReview(reviewData);
-      res.status(201).json({ data: createReviewData, message: 'created' });
+      console.log(reviewData);
+      
+      // const createReviewData: Reviews = await this.review.createReview(reviewData);
+      res.status(201).json({ data: 'createReviewData', message: 'created' });
     } catch (error) {
       next(error);
     }

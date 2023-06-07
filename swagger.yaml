@@ -452,7 +452,7 @@ paths:
         - JWT: []
       tags:
         - reviews
-      summary: Find All Products
+      summary: Find All Review by ProductId
       responses:
         200:
           description: 'OK'
@@ -483,7 +483,6 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-    # [GET] reviews/id
   
   # [GET] reviews/id
   /reviews/{id}:

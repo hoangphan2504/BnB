@@ -6,17 +6,24 @@ import { Reviews } from '@interfaces/reviews.interface';
 
 @Service()
 export class ReviewService {
-  public async findAllReviews(): Promise<Reviews[]> {
+  public async findAllReviews(productId: number): Promise<Reviews[]> {
     const allReviews: Reviews[] = await DB.Reviews.findAll();
     return allReviews;
   }
 
-  public async findallReviewsById(reviewId: number): Promise<Reviews> {
-    const findReview: Reviews = await DB.Reviews.findByPk(reviewId);
-    if (!findReview) throw new HttpException(409, "Product doesn't exist");
 
-    return findReview;
+  public async findallReviewsById(productId: number): Promise<Reviews[]> {
+    const findAllReviewsId: Reviews[] = await DB.Reviews.findAll({
+      where: {
+        productId: productId
+      }
+    });
+
+    if (!findAllReviewsId) throw new HttpException(409, "Id doesn't exist");
+    return findAllReviewsId;
   }
+
+  
 
   public async createReview(reviewData: CreateReviewDto): Promise<Reviews> {
     const createReviewData: Reviews = await DB.Reviews.create(reviewData);

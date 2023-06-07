@@ -1,3 +1,4 @@
+import { Role } from '@/interfaces/auth.interface';
 import { IsString, IsEmail, IsNotEmpty, MinLength, MaxLength, IsDate, IsOptional, IsBoolean, IsDateString } from 'class-validator';
 
 export class CreateUserDto {
@@ -23,6 +24,8 @@ export class CreateUserDto {
   @IsDateString()
   @IsOptional()
   public dob: Date;
+
+  public role?: Role;
 }
 
 export class UpdatePasswordDto {

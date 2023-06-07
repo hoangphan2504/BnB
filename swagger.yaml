@@ -681,6 +681,18 @@ definitions:
     type: object
     required:
     properties:
+      receiptAddress:
+        type: string
+        description: order receipt address
+
+      receiptName:
+        type: string
+        description: order receipt name
+
+      receiptPhone:
+        type: string
+        description: order receipt phone
+
       products:
         type: array
         items:
@@ -697,6 +709,9 @@ definitions:
               description: product Quantity
 
     example:
+      receiptAddress: 'Example Address'
+      receiptName: 'Example Name'
+      receiptPhone: '0123456789'
       products:
         - productId: 1
           quantity: 1
@@ -704,6 +719,33 @@ definitions:
           quantity: 2
         - productId: 3
           quantity: 4
+
+  UpdateOrderDto:
+    type: object
+    required:
+    properties:
+      receiptAddress:
+        type: string
+        description: order receipt address
+      receiptName:
+        type: string
+        description: order receipt name
+      receiptPhone:
+        type: string
+        description: order receipt phone
+      status:
+        type: string
+        enum:
+          - PENDING
+          - CANCELLED
+          - DELIVERED  
+        description: order status
+
+    example:
+      receiptAddress: 'Example Address'
+      receiptName: 'Example Name'
+      receiptPhone: '0123456789'
+      status: 'CANCELLED'
 
   CreateReviewDto:
     type: object

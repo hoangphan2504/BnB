@@ -4,6 +4,7 @@ import { UserModel } from '@/models/users.model';
 export enum Role {
   ADMIN = 'ADMIN',
   CUSTOMER = 'CUSTOMER',
+  DELIVERER = 'DELIVERER',
 }
 export enum TokenType {
   REFRESH = 'refresh',

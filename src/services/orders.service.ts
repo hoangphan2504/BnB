@@ -7,6 +7,13 @@ import { OrderItem } from '@/interfaces/order-items.interface';
 
 @Service()
 export class OrderService {
+  public async isOrderBelongsToUser(orderId: number, userId: number): Promise<boolean> {
+    const order: Order = await DB.Order.findByPk(orderId);
+    if (!order) throw new HttpException(409, "Order doesn't exist");
+
+    return order.userId === userId;
+  }
+
   public async findAllOrders(): Promise<Order[]> {
     const allOrders: Order[] = await DB.Order.findAll();
     return allOrders;
@@ -32,9 +39,13 @@ export class OrderService {
   public async createOrder(orderData: CreateOrderDto, userId: number): Promise<Order> {
     try {
       const result = await DB.sequelize.transaction(async t => {
+        const { receiptAddress, receiptName, receiptPhone } = orderData;
         const createdOrder: Order = await DB.Order.create(
           {
             userId,
+            receiptAddress,
+            receiptName,
+            receiptPhone,
           },
           { transaction: t },
         );

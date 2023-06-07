@@ -1,19 +1,9 @@
-export enum ProductStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  CANCELLED = 'CANCELLED',
-  DELIVERED = 'DELIVERED',
-  RETURNED = 'RETURNED',
-  PAID = 'PAID',
-  UNPAID = 'UNPAID',
-}
-
 export interface Product {
   id: number;
   name: string;
   desc: string;
   price: number;
-  status: ProductStatus;
+  importPrice: number;
   brandName: string;
   categoryId: string;
   quantity: number;

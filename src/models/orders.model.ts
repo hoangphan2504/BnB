@@ -6,6 +6,9 @@ export class OrderModel extends Model<Order, OrderCreationAttributes> implements
   public id: number;
   public status: OrderStatus;
   public userId: number;
+  public receiptAddress: string;
+  public receiptName: string;
+  public receiptPhone: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -23,20 +26,23 @@ const initModel = (sequelize: Sequelize): typeof OrderModel => {
       status: {
         allowNull: false,
         defaultValue: OrderStatus.PENDING,
-        type: DataTypes.ENUM,
-        values: [
-          OrderStatus.PENDING,
-          OrderStatus.CONFIRMED,
-          OrderStatus.CANCELLED,
-          OrderStatus.DELIVERED,
-          OrderStatus.RETURNED,
-          OrderStatus.PAID,
-          OrderStatus.UNPAID,
-        ],
+        type: DataTypes.ENUM(...Object.values(OrderStatus)),
       },
       userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+      },
+      receiptAddress: {
+        allowNull: false,
+        type: DataTypes.STRING(225),
+      },
+      receiptName: {
+        allowNull: false,
+        type: DataTypes.STRING(45),
+      },
+      receiptPhone: {
+        allowNull: false,
+        type: DataTypes.STRING(45),
       },
     },
     {

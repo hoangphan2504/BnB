@@ -52,7 +52,7 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
       },
       role: {
         defaultValue: Role.CUSTOMER,
-        type: DataTypes.ENUM(Role.ADMIN, Role.CUSTOMER),
+        type: DataTypes.ENUM(...Object.values(Role)),
       },
       avatar: {
         allowNull: true,

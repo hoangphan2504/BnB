@@ -21,7 +21,7 @@ export class ReviewController {
   public getReviewById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const reviewId = Number(req.params.id);
-      const findOneReviewData: Reviews = await this.review.findallReviewsById(reviewId);
+      const findOneReviewData: Reviews = await this.review.findAllReviewsById(reviewId);
 
       res.status(200).json({ data: findOneReviewData, message: 'findOne' });
     } catch (error) {

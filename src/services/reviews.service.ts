@@ -6,7 +6,7 @@ import { Reviews } from '@interfaces/reviews.interface';
 
 @Service()
 export class ReviewService {
-  public async findAllReviews(productId: number): Promise<Reviews[]> {
+  public async findAllReviews(): Promise<Reviews[]> {
     const allReviews: Reviews[] = await DB.Reviews.findAll();
     return allReviews;
   }
@@ -16,6 +16,9 @@ export class ReviewService {
     const findAllReviewsId: Reviews[] = await DB.Reviews.findAll({
       where: {
         productId: productId
+      },
+      attributes: {
+        
       }
     });
 

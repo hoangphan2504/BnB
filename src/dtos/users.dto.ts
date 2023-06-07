@@ -1,5 +1,5 @@
 import { Role } from '@/interfaces/auth.interface';
-import { IsString, IsEmail, IsNotEmpty, MinLength, MaxLength, IsDate, IsOptional, IsBoolean, IsDateString } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, MinLength, MaxLength, IsDate, IsOptional, IsBoolean, IsDateString, IsEnum } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -25,6 +25,8 @@ export class CreateUserDto {
   @IsOptional()
   public dob: Date;
 
+  @IsOptional()
+  @IsEnum(Role)
   public role?: Role;
 }
 

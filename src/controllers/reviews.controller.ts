@@ -3,6 +3,7 @@ import { Container } from 'typedi';
 import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { Reviews } from '@interfaces/reviews.interface';
 import { ReviewService } from '@/services/reviews.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 export class ReviewController {
   public review = Container.get(ReviewService);
@@ -28,12 +29,14 @@ export class ReviewController {
     }
   };
 
-  public createReview = async (req: Request, res: Response, next: NextFunction) => {
+  public createReview = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const reviewData: CreateReviewDto = req.body;
-      const createReviewData: Reviews = await this.review.createReview(reviewData);
-
-      res.status(201).json({ data: createReviewData, message: 'created' });
+      reviewData.userId = req.user.id;
+      console.log(reviewData);
+      
+      // const createReviewData: Reviews = await this.review.createReview(reviewData);
+      res.status(201).json({ data: 'createReviewData', message: 'created' });
     } catch (error) {
       next(error);
     }

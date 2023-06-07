@@ -23,7 +23,7 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
         type: DataTypes.INTEGER,
       },
       userId: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
       },
       content: {

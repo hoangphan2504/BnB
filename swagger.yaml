@@ -337,6 +337,7 @@ paths:
 
   # [GET] products/id
   /products/{id}:
+  
     get:
       tags:
         - products
@@ -444,12 +445,14 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] reviews
   /reviews:
-    # [GET] reviews
     get:
+      security:
+        - JWT: []
       tags:
         - reviews
-      summary: Find All Products
+      summary: Find All Review by ProductId
       responses:
         200:
           description: 'OK'
@@ -461,6 +464,8 @@ paths:
       tags:
         - reviews
       summary: Add Review
+      security:
+        - JWT: []
       parameters:
         - name: body
           in: body
@@ -478,7 +483,8 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-    # [GET] reviews/id
+  
+  # [GET] reviews/id
   /reviews/{id}:
     get:
       tags:
@@ -525,24 +531,24 @@ paths:
         500:
           description: 'Server Error'
 
-    # [DELETE] reviews/id
-    delete:
-      tags:
-        - reviews
-      summary: Delete Review By Id
-      parameters:
-        - name: id
-          in: path
-          description: review Id
-          required: true
-          type: integer
-      responses:
-        200:
-          description: 'OK'
-        409:
-          description: 'Conflict'
-        500:
-          description: 'Server Error'
+      # [DELETE] reviews/id
+      delete:
+        tags:
+          - reviews
+        summary: Delete Review By Id
+        parameters:
+          - name: id
+            in: path
+            description: review Id
+            required: true
+            type: integer
+        responses:
+          200:
+            description: 'OK'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
 
   /categories:
     get:
@@ -556,6 +562,36 @@ paths:
           description: 'OK'
         500:
           description: 'Server Error'
+
+
+  #[GET] order-item/id
+  /order-items/{id}:
+  
+    get:
+      tags:
+        - order-items
+      summary: Find order-item By Id
+      parameters:
+        - name: id
+          in: path
+          description: product Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+
+
+
+
+
+
+  
 
 # definitions
 definitions:
@@ -649,7 +685,7 @@ definitions:
       brandName:
         type: string
         description: product Brandname
-      categoryId:
+      categories_id:
         type: string
         description: product CategoriesId
       quantity:
@@ -788,6 +824,24 @@ definitions:
     example:
       oldPassword: '123456'
       newPassword: '654321'
+
+  CreateOrderItemDto:
+    type: object
+    required:
+    properties:
+            content:
+              type: string
+              description: review content
+            rating:
+              type: number
+              description: review rating
+            productId:
+              type: number
+              description: product Id
+    example:
+      content: 'Example conent'
+      rating: 5
+      productId: 1
 
 securityDefinitions:
   JWT:

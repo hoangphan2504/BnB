@@ -7,8 +7,8 @@ export enum Role {
   DELIVERER = 'DELIVERER',
 }
 export enum TokenType {
-  REFRESH = 'refresh',
-  ACCESS = 'access',
+  REFRESH = 'REFRESH',
+  ACCESS = 'ACCESS',
 }
 export interface DataStoredInToken {
   id: number;

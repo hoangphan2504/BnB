@@ -1,6 +1,6 @@
 import { OrderStatus } from '@/interfaces/orders.interface';
 import { Type } from 'class-transformer';
-import { IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class ProductItem {
   @IsNumber()
@@ -20,6 +20,10 @@ export class CreateOrderDto {
   @IsString()
   public receiptPhone?: string;
 
+  @IsEnum(OrderStatus)
+  @IsOptional()
+  public status?: OrderStatus;
+
   @ValidateNested()
   @Type(() => ProductItem)
   public products: ProductItem[];
@@ -27,14 +31,18 @@ export class CreateOrderDto {
 
 export class UpdateOrderDto {
   @IsString()
+  @IsOptional()
   public receiptAddress?: string;
 
   @IsString()
+  @IsOptional()
   public receiptName?: string;
 
   @IsString()
+  @IsOptional()
   public receiptPhone?: string;
 
   @IsEnum(OrderStatus)
+  @IsOptional()
   public status?: OrderStatus;
 }

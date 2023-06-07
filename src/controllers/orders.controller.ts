@@ -13,12 +13,11 @@ export class OrderController {
     try {
       const { user } = req;
       let findAllOrdersData: Order[];
-      const acceptedRoles = [Role.ADMIN, Role.DELIVERER];
 
-      if (acceptedRoles.includes(user.getDataValue('role'))) {
-        findAllOrdersData = await this.order.findAllOrders();
-      } else {
+      if (user.role === Role.CUSTOMER) {
         findAllOrdersData = await this.order.findAllOrdersByUserId(user.id);
+      } else {
+        findAllOrdersData = await this.order.findAllOrders();
       }
 
       res.status(200).json({ data: findAllOrdersData, message: 'findAll' });
@@ -45,8 +44,8 @@ export class OrderController {
 
   public createOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const orderData: CreateOrderDto = req.body;
-      const createOrderData: Order = await this.order.createOrder(orderData, req.user.getDataValue('id'));
+      const dto: CreateOrderDto = req.body;
+      const createOrderData: Order = await this.order.createOrder(dto, req.user.getDataValue('id'));
 
       res.status(201).json({ data: createOrderData, message: 'created' });
     } catch (error) {
@@ -57,12 +56,13 @@ export class OrderController {
   public updateOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const orderId = Number(req.params.id);
-      const orderData: CreateOrderDto = req.body;
-      const updateOrderData: Order = await this.order.updateOrder(orderId, orderData);
+      const dto: CreateOrderDto = req.body;
 
       if (req.user.role === Role.CUSTOMER && !this.order.isOrderBelongsToUser(orderId, req.user.id)) {
         throw new HttpException(404, "Order doesn't exist");
       }
+
+      const updateOrderData: Order = await this.order.updateOrder(orderId, dto);
 
       res.status(200).json({ data: updateOrderData, message: 'updated' });
     } catch (error) {

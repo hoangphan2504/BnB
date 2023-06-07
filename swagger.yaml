@@ -707,11 +707,19 @@ definitions:
             quantity:
               type: number
               description: product Quantity
+      status:
+        type: string
+        enum:
+          - PENDING
+          - CANCELLED
+          - DELIVERED
+        description: order status
 
     example:
       receiptAddress: 'Example Address'
       receiptName: 'Example Name'
       receiptPhone: '0123456789'
+      status: 'PENDING'
       products:
         - productId: 1
           quantity: 1
@@ -738,7 +746,7 @@ definitions:
         enum:
           - PENDING
           - CANCELLED
-          - DELIVERED  
+          - DELIVERED
         description: order status
 
     example:

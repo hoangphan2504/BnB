@@ -13,6 +13,7 @@ import { ReviewService } from '@/services/reviews.service';
 import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { CategoryService } from '@/services/categories.service';
 import { Role } from '@/interfaces/auth.interface';
+import { OrderStatus } from '@/interfaces/orders.interface';
 
 interface SeedAmount {
   users: number;
@@ -55,6 +56,7 @@ class Seeder {
               receiptAddress: faker.location.streetAddress(),
               receiptName: faker.person.fullName(),
               receiptPhone: faker.phone.number('+84 ## ### ## ##'),
+              status: Object.values(OrderStatus)[faker.number.int({ min: 0, max: 2 })],
             };
 
             await this.orderService.createOrder(dto, user.id);

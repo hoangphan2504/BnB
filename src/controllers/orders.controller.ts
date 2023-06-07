@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { Container } from 'typedi';
 import { CreateOrderDto } from '@/dtos/orders.dto';
 import { Order } from '@interfaces/orders.interface';
 import { OrderService } from '@/services/orders.service';
 import { RequestWithUser, Role } from '@/interfaces/auth.interface';
+import { HttpException } from '@/exceptions/httpException';
 
 export class OrderController {
   public order = Container.get(OrderService);
@@ -13,10 +14,10 @@ export class OrderController {
       const { user } = req;
       let findAllOrdersData: Order[];
 
-      if (user.role === Role.ADMIN) {
-        findAllOrdersData = await this.order.findAllOrders();
-      } else {
+      if (user.role === Role.CUSTOMER) {
         findAllOrdersData = await this.order.findAllOrdersByUserId(user.id);
+      } else {
+        findAllOrdersData = await this.order.findAllOrders();
       }
 
       res.status(200).json({ data: findAllOrdersData, message: 'findAll' });
@@ -25,9 +26,14 @@ export class OrderController {
     }
   };
 
-  public getOrderById = async (req: Request, res: Response, next: NextFunction) => {
+  public getOrderById = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const orderId = Number(req.params.id);
+
+      if (req.user.role === Role.CUSTOMER && !this.order.isOrderBelongsToUser(orderId, req.user.id)) {
+        throw new HttpException(404, "Order doesn't exist");
+      }
+
       const findOneOrderData: Order = await this.order.findOrderById(orderId);
 
       res.status(200).json({ data: findOneOrderData, message: 'findOne' });
@@ -38,8 +44,8 @@ export class OrderController {
 
   public createOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const orderData: CreateOrderDto = req.body;
-      const createOrderData: Order = await this.order.createOrder(orderData, req.user.getDataValue('id'));
+      const dto: CreateOrderDto = req.body;
+      const createOrderData: Order = await this.order.createOrder(dto, req.user.getDataValue('id'));
 
       res.status(201).json({ data: createOrderData, message: 'created' });
     } catch (error) {
@@ -47,21 +53,31 @@ export class OrderController {
     }
   };
 
-  public updateOrder = async (req: Request, res: Response, next: NextFunction) => {
+  public updateOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const orderId = Number(req.params.id);
-      const orderData: CreateOrderDto = req.body;
-      const updateorderData: Order = await this.order.updateOrder(orderId, orderData);
+      const dto: CreateOrderDto = req.body;
 
-      res.status(200).json({ data: updateorderData, message: 'updated' });
+      if (req.user.role === Role.CUSTOMER && !this.order.isOrderBelongsToUser(orderId, req.user.id)) {
+        throw new HttpException(404, "Order doesn't exist");
+      }
+
+      const updateOrderData: Order = await this.order.updateOrder(orderId, dto);
+
+      res.status(200).json({ data: updateOrderData, message: 'updated' });
     } catch (error) {
       next(error);
     }
   };
 
-  public deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
+  public deleteOrder = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const orderId = Number(req.params.id);
+
+      if (req.user.role === Role.CUSTOMER && !this.order.isOrderBelongsToUser(orderId, req.user.id)) {
+        throw new HttpException(404, "Order doesn't exist");
+      }
+
       const deleteOrderData: Order = await this.order.deleteOrder(orderId);
 
       res.status(200).json({ data: deleteOrderData, message: 'deleted' });

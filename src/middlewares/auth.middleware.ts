@@ -46,5 +46,13 @@ export const AdminCheckMiddleware = async (req: RequestWithUser, res: Response, 
   const { user } = req;
   if (user.getDataValue('role') == Role.ADMIN) {
     next();
-  } else next(new HttpException(403, 'Access permission denied'));
+  } else next(new HttpException(403, "Cannot access role admin's resource"));
+};
+
+export const DelivererCheckMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { user } = req;
+  const acceptedRoles = [Role.ADMIN, Role.DELIVERER];
+  if (acceptedRoles.includes(user.getDataValue('role'))) {
+    next();
+  } else next(new HttpException(403, "Cannot access role delieverer's resource"));
 };

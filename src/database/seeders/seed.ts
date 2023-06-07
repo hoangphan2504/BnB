@@ -4,7 +4,7 @@ import { UserService } from '@/services/users.service';
 import { User } from '@/interfaces/users.interface';
 import { faker } from '@faker-js/faker';
 import { CreateUserDto } from '@/dtos/users.dto';
-import { Product, ProductStatus } from '@/interfaces/products.interface';
+import { Product } from '@/interfaces/products.interface';
 import { CreateProductDto } from '@/dtos/products.dto';
 import { ProductService } from '@/services/products.service';
 import { OrderService } from '@/services/orders.service';
@@ -12,6 +12,8 @@ import { CreateOrderDto, ProductItem } from '@/dtos/orders.dto';
 import { ReviewService } from '@/services/reviews.service';
 import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { CategoryService } from '@/services/categories.service';
+import { Role } from '@/interfaces/auth.interface';
+import { OrderStatus } from '@/interfaces/orders.interface';
 
 interface SeedAmount {
   users: number;
@@ -51,6 +53,10 @@ class Seeder {
 
             const dto: CreateOrderDto = {
               products: productItems,
+              receiptAddress: faker.location.streetAddress(),
+              receiptName: faker.person.fullName(),
+              receiptPhone: faker.phone.number('+84 ## ### ## ##'),
+              status: Object.values(OrderStatus)[faker.number.int({ min: 0, max: 2 })],
             };
 
             await this.orderService.createOrder(dto, user.id);
@@ -77,6 +83,7 @@ class Seeder {
           password: '123456',
           phone: faker.phone.number('+84 ## ### ## ##'),
           dob: faker.date.past(),
+          role: i == 0 ? Role.ADMIN : Role.CUSTOMER,
         };
 
         creationPromises.push(this.userService.createUser(newUser));
@@ -100,7 +107,7 @@ class Seeder {
           name: faker.commerce.productName(),
           desc: faker.commerce.productDescription(),
           price: Number(faker.commerce.price({ max: 1000000 })),
-          status: ProductStatus.PENDING,
+          importPrice: Number(faker.commerce.price({ max: 800000 })),
           brandName: faker.company.name(),
           quantity: faker.number.int({ min: 30, max: 100 }),
           sold: faker.number.int({ max: 25 }),

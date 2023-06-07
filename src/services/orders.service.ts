@@ -1,14 +1,24 @@
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateOrderDto } from '@/dtos/orders.dto';
+import { CreateOrderDto, UpdateOrderDto } from '@/dtos/orders.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Order } from '@interfaces/orders.interface';
 import { OrderItem } from '@/interfaces/order-items.interface';
 
 @Service()
 export class OrderService {
+  public async isOrderBelongsToUser(orderId: number, userId: number): Promise<boolean> {
+    const order: Order = await DB.Order.findByPk(orderId);
+    if (!order) throw new HttpException(409, "Order doesn't exist");
+
+    return order.userId === userId;
+  }
+
   public async findAllOrders(): Promise<Order[]> {
-    const allOrders: Order[] = await DB.Order.findAll();
+    const allOrders: Order[] = await DB.Order.findAll({
+      include: [DB.OrderItem],
+      // attributes: { exclude: ['userId'] },
+    });
     return allOrders;
   }
 
@@ -29,18 +39,20 @@ export class OrderService {
     return findOrder;
   }
 
-  public async createOrder(orderData: CreateOrderDto, userId: number): Promise<Order> {
+  public async createOrder(dto: CreateOrderDto, userId: number): Promise<Order> {
     try {
       const result = await DB.sequelize.transaction(async t => {
+        const { products, ...rest } = dto;
         const createdOrder: Order = await DB.Order.create(
           {
+            ...rest,
             userId,
           },
           { transaction: t },
         );
 
         const orderItems: OrderItem[] = await Promise.all(
-          orderData.products.map(async item => {
+          products.map(async item => {
             const product = await DB.Product.findByPk(item.productId, {
               transaction: t,
             });
@@ -66,11 +78,11 @@ export class OrderService {
     }
   }
 
-  public async updateOrder(orderId: number, orderData: CreateOrderDto): Promise<Order> {
+  public async updateOrder(orderId: number, dto: UpdateOrderDto): Promise<Order> {
     const findOrder: Order = await DB.Order.findByPk(orderId);
     if (!findOrder) throw new HttpException(409, "Order doesn't exist");
 
-    // await DB.Order.update(orderData, { where: { id: orderId } });
+    await DB.Order.update(dto, { where: { id: orderId } });
 
     const updatedOrder: Order = await DB.Order.findByPk(orderId);
     return updatedOrder;

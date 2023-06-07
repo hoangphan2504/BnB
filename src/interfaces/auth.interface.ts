@@ -4,10 +4,11 @@ import { UserModel } from '@/models/users.model';
 export enum Role {
   ADMIN = 'ADMIN',
   CUSTOMER = 'CUSTOMER',
+  DELIVERER = 'DELIVERER',
 }
 export enum TokenType {
-  REFRESH = 'refresh',
-  ACCESS = 'access',
+  REFRESH = 'REFRESH',
+  ACCESS = 'ACCESS',
 }
 export interface DataStoredInToken {
   id: number;

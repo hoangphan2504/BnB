@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { Product, ProductStatus } from '@/interfaces/products.interface';
+import { Product } from '@/interfaces/products.interface';
 
 export type ProductCreationAttributes = Optional<Product, 'id'>;
 
@@ -8,8 +8,8 @@ export class ProductModel extends Model<Product, ProductCreationAttributes> impl
   public name: string;
   public desc: string;
   public price: number;
-  public status: ProductStatus;
   public brandName: string;
+  public importPrice: number;
   public categoryId: string;
   public quantity: number;
   public sold: number;
@@ -38,20 +38,11 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
       },
       price: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2),
       },
-      status: {
+      importPrice: {
         allowNull: false,
-        type: DataTypes.ENUM,
-        values: [
-          ProductStatus.PENDING,
-          ProductStatus.CONFIRMED,
-          ProductStatus.CANCELLED,
-          ProductStatus.DELIVERED,
-          ProductStatus.RETURNED,
-          ProductStatus.PAID,
-          ProductStatus.UNPAID,
-        ],
+        type: DataTypes.DECIMAL(10, 2),
       },
       brandName: {
         allowNull: false,

@@ -1,14 +1,4 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, IsOptional } from 'class-validator';
-
-export enum ProductStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  CANCELLED = 'CANCELLED',
-  DELIVERED = 'DELIVERED',
-  RETURNED = 'RETURNED',
-  PAID = 'PAID',
-  UNPAID = 'UNPAID',
-}
+import { IsString, IsNotEmpty, IsNumber, IsArray, IsOptional } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -22,8 +12,8 @@ export class CreateProductDto {
   @IsNumber()
   public price: number;
 
-  @IsEnum(ProductStatus)
-  public status: ProductStatus;
+  @IsNumber()
+  public importPrice: number;
 
   @IsString()
   @IsNotEmpty()
@@ -57,10 +47,6 @@ export class UpdateProductDto {
   @IsNumber()
   @IsOptional()
   public price: number;
-
-  @IsEnum(ProductStatus)
-  @IsOptional()
-  public status: ProductStatus;
 
   @IsString()
   @IsOptional()

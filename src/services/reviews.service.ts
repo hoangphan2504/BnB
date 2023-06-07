@@ -6,8 +6,33 @@ import { Reviews } from '@interfaces/reviews.interface';
 
 @Service()
 export class ReviewService {
-  public async findAllReviews(productId: number): Promise<Reviews[]> {
-    const allReviews: Reviews[] = await DB.Reviews.findAll();
+  public async findAllReviewsByProductId(productId: number): Promise<Reviews[]> {
+    const allReviews: Reviews[] = await DB.Reviews.findAll({
+      where: {
+        productId: productId,
+      },
+      attributes: {
+        exclude: ['productId'],
+        include: [
+          [
+            DB.sequelize.literal(`(
+              select u.avatar
+              from users u
+              where u.id = ReviewsModel.user_id
+            )`),
+            'userAvatar',
+          ],
+          [
+            DB.sequelize.literal(`(
+              select u.fullname
+              from users u
+              where u.id = ReviewsModel.user_id
+            )`),
+            'userName',
+          ],
+        ],
+      },
+    });
 
     return allReviews;
   }

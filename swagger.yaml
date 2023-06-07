@@ -446,18 +446,6 @@ paths:
 
   # [GET] reviews
   /reviews:
-    get:
-      security:
-        - JWT: []
-      tags:
-        - reviews
-      summary: Find All Review by ProductId
-      responses:
-        200:
-          description: 'OK'
-        500:
-          description: 'Server Error'
-
     # [POST] reviews
     post:
       tags:
@@ -492,7 +480,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: review Id
+          description: product Id
           required: true
           type: integer
       responses:

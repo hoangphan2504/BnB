@@ -61,4 +61,15 @@ export class ProductController {
       next(error);
     }
   };
+
+  public searchProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { keyword } = req.query;
+      const searchProductsData: Product[] = await this.product.searchProductByName(keyword as string);
+
+      res.status(200).json({ data: searchProductsData, message: 'search' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

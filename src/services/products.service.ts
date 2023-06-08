@@ -58,4 +58,16 @@ export class ProductService {
 
     return findProduct;
   }
+
+  public async searchProductByName(query: string) {
+    const findProduct: Product[] = await DB.Product.findAll({
+      where: {
+        name: {
+          [DB.Sequelize.Op.like]: `%${query}%`,
+        },
+      },
+    });
+
+    return findProduct;
+  }
 }

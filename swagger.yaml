@@ -405,6 +405,25 @@ paths:
         500:
           description: 'Server Error'
 
+  /products/search:
+    get:
+      tags:
+        - products
+      summary: Search Product By Name
+      parameters:
+        - name: keyword
+          in: query
+          description: product name
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
   /orders:
     # [GET] orders
     get:

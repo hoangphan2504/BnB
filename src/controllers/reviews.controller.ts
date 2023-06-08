@@ -10,20 +10,10 @@ export class ReviewController {
 
   public getReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const findAllReviewsData: Reviews[] = await this.review.findAllReviews();
+      const productId = Number(req.params.id);
+      const findAllReviewsData: Reviews[] = await this.review.findAllReviewsByProductId(productId);
 
       res.status(200).json({ data: findAllReviewsData, message: 'findAll' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public getReviewById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const reviewId = Number(req.params.id);
-      const findOneReviewData: Reviews = await this.review.findallReviewsById(reviewId);
-
-      res.status(200).json({ data: findOneReviewData, message: 'findOne' });
     } catch (error) {
       next(error);
     }
@@ -34,7 +24,7 @@ export class ReviewController {
       const reviewData: CreateReviewDto = req.body;
       reviewData.userId = req.user.id;
       console.log(reviewData);
-      
+
       // const createReviewData: Reviews = await this.review.createReview(reviewData);
       res.status(201).json({ data: 'createReviewData', message: 'created' });
     } catch (error) {

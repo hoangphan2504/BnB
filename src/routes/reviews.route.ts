@@ -15,8 +15,7 @@ export class ReviewRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, AuthMiddleware, this.review.getReviews);
-    this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.review.getReviewById);
+    this.router.get(`${this.path}/:id(\\d+)`, this.review.getReviews);
     this.router.post(`${this.path}`, AuthMiddleware, ValidationMiddleware(CreateReviewDto), this.review.createReview);
     this.router.put(`${this.path}/:id(\\d+)`, AuthMiddleware, ValidationMiddleware(CreateReviewDto, true), this.review.updateReview);
     this.router.delete(`${this.path}/:id(\\d+)`, AuthMiddleware, AdminCheckMiddleware, this.review.deleteReview);

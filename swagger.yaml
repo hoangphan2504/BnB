@@ -337,7 +337,6 @@ paths:
 
   # [GET] products/id
   /products/{id}:
-  
     get:
       tags:
         - products
@@ -447,18 +446,6 @@ paths:
 
   # [GET] reviews
   /reviews:
-    get:
-      security:
-        - JWT: []
-      tags:
-        - reviews
-      summary: Find All Review by ProductId
-      responses:
-        200:
-          description: 'OK'
-        500:
-          description: 'Server Error'
-
     # [POST] reviews
     post:
       tags:
@@ -483,17 +470,17 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-  
+
   # [GET] reviews/id
   /reviews/{id}:
     get:
       tags:
         - reviews
-      summary: Find Review By Id
+      summary: Get reviews by product id
       parameters:
         - name: id
           in: path
-          description: review Id
+          description: product Id
           required: true
           type: integer
       responses:
@@ -563,10 +550,8 @@ paths:
         500:
           description: 'Server Error'
 
-
   #[GET] order-item/id
   /order-items/{id}:
-  
     get:
       tags:
         - order-items
@@ -584,14 +569,6 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-
-
-
-
-
-
-
-  
 
 # definitions
 definitions:
@@ -829,15 +806,15 @@ definitions:
     type: object
     required:
     properties:
-            content:
-              type: string
-              description: review content
-            rating:
-              type: number
-              description: review rating
-            productId:
-              type: number
-              description: product Id
+      content:
+        type: string
+        description: review content
+      rating:
+        type: number
+        description: review rating
+      productId:
+        type: number
+        description: product Id
     example:
       content: 'Example conent'
       rating: 5

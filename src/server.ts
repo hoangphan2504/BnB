@@ -7,6 +7,7 @@ import { OrderRoute } from './routes/orders.route';
 import { ReviewRoute } from './routes/reviews.route';
 import { CategoryRoute } from './routes/categories.route';
 import { OrderItemRoute } from './routes/order-items.route';
+import { GeneralRoute } from './routes/general.route';
 
 ValidateEnv();
 
@@ -18,6 +19,7 @@ const app = new App([
   new ReviewRoute(),
   new CategoryRoute(),
   new OrderItemRoute(),
+  new GeneralRoute(),
 ]);
 
 app.listen();

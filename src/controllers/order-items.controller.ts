@@ -61,14 +61,4 @@ export class OrderItemController {
       next(error);
     }
   };
-
-  public chartSevenDays = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const chartSevenDaysData = await this.order.chartSevenDays();
-
-      res.status(200).json({ data: chartSevenDaysData, message: 'get statistic' });
-    } catch (error) {
-      next(error);
-    }
-  };
 }

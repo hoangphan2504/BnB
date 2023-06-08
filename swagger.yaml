@@ -7,6 +7,8 @@ tags:
     description: products API
   - name: categories
     description: categories API
+  - name: general
+    description: general API
 
 paths:
   /users:
@@ -244,22 +246,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/LoginDto'
-      responses:
-        200:
-          description: 'OK'
-        400:
-          description: 'Bad Request'
-        409:
-          description: 'Conflict'
-        500:
-          description: 'Server Error'
-
-  # [POST] logout
-  /auth/logout:
-    post:
-      tags:
-        - auth
-      summary: Logout
       responses:
         200:
           description: 'OK'
@@ -588,12 +574,25 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-          
-  /order-items/sell-on-categories:
+
+  /general/statistics:
     get:
       tags:
-        - order-items
-      summary: last seven days revenue
+        - general
+      summary: general statistics
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  /general/revenue-by-category:
+    get:
+      tags:
+        - general
+      summary: revenue by category
       responses:
         200:
           description: 'OK'

@@ -3,7 +3,7 @@ import { OrderController } from '@/controllers/orders.controller';
 import { CreateOrderDto } from '@/dtos/orders.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
-import { AuthMiddleware, DelivererCheckMiddleware } from '@/middlewares/auth.middleware';
+import { AuthMiddleware } from '@/middlewares/auth.middleware';
 
 export class OrderRoute implements Routes {
   public path = '/orders';

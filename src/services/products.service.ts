@@ -1,13 +1,27 @@
 import { Service } from 'typedi';
 import { DB } from '@database';
-import { CreateProductDto } from '@/dtos/products.dto';
+import { CreateProductDto, UpdateProductDto } from '@/dtos/products.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { Product } from '@interfaces/products.interface';
 
 @Service()
 export class ProductService {
   public async findAllProducts(): Promise<Product[]> {
-    const allProducts: Product[] = await DB.Product.findAll();
+    const allProducts: Product[] = await DB.Product.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt', 'importPrice'],
+        include: [
+          [
+            DB.Sequelize.literal(`
+              (SELECT AVG(r.rating) 
+              FROM reviews r
+              WHERE r.product_id = ProductModel.id)
+            `),
+            'avgRating',
+          ],
+        ],
+      },
+    });
     return allProducts;
   }
 
@@ -26,7 +40,7 @@ export class ProductService {
     return createProductData;
   }
 
-  public async updateProduct(productId: number, productData: CreateProductDto): Promise<Product> {
+  public async updateProduct(productId: number, productData: UpdateProductDto): Promise<Product> {
     const findProduct: Product = await DB.Product.findByPk(productId);
     if (!findProduct) throw new HttpException(409, "Product doesn't exist");
 

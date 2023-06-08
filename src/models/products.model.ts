@@ -10,7 +10,7 @@ export class ProductModel extends Model<Product, ProductCreationAttributes> impl
   public price: number;
   public brandName: string;
   public importPrice: number;
-  public categoryId: string;
+  public categoryId: number;
   public inventory: number;
   public sold: number;
   public images: string[];

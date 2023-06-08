@@ -589,29 +589,11 @@ paths:
         500:
           description: 'Server Error'
           
-  /order-items/seven:
+  /order-items/sell-on-categories:
     get:
       tags:
         - order-items
       summary: last seven days revenue
-      parameters:
-        - name: revenue
-        in: query
-        description: Revenue amount
-        schema:
-          type: number
-      - name: date
-        in: query
-        description: Date of the order
-        schema:
-          type: string
-          format: date
-      - name: category_id
-        in: query
-        description: Category ID of the product
-        schema:
-          type: number
-
       responses:
         200:
           description: 'OK'

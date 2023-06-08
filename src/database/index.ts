@@ -44,16 +44,21 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
   const User = UserModel(sequelize);
 
   Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+  OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
   Categories.hasMany(Product, { foreignKey: 'categoryId' });
 
   Product.hasMany(OrderItem, { foreignKey: 'productId' });
+  OrderItem.belongsTo(Product, { foreignKey: 'productId' });
 
   Product.hasMany(Reviews, { foreignKey: 'productId' });
+  Reviews.belongsTo(Product, { foreignKey: 'productId' });
 
   User.hasMany(Reviews, { foreignKey: 'userId' });
+  Reviews.belongsTo(User, { foreignKey: 'userId' });
 
   User.hasMany(Order, { foreignKey: 'userId' });
+  Order.belongsTo(User, { foreignKey: 'userId' });
 
   return {
     Reviews,

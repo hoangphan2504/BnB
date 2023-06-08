@@ -43,9 +43,9 @@ export class OrderItemController {
     try {
       const orderItemId = Number(req.params.id);
       const orderItemData: CreateOrderItemDto = req.body;
-      const updateorderItemData: OrderItem = await this.order.updateOrderItem(orderItemId, orderItemData);
+      const updateOrderItem: OrderItem = await this.order.updateOrderItem(orderItemId, orderItemData);
 
-      res.status(200).json({ data: updateorderItemData, message: 'updated' });
+      res.status(200).json({ data: updateOrderItem, message: 'updated' });
     } catch (error) {
       next(error);
     }
@@ -64,12 +64,11 @@ export class OrderItemController {
 
   public chartSevenDays = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const chartSevenDaysData = await this.OrderItemService.chartSevenDays();
+      const chartSevenDaysData = await this.order.chartSevenDays();
 
-      res.status(200).json({ data: chartSevenDaysData, message: 'deleted' });
+      res.status(200).json({ data: chartSevenDaysData, message: 'get statistic' });
     } catch (error) {
       next(error);
     }
   };
-  OrderItemService: any;
 }

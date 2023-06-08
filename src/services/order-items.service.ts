@@ -51,34 +51,26 @@ export class OrderItemService {
     return findOrderItem;
   }
 
-
-public async chartSevenDays(): Promise<OrderItem[]> {
+  public async chartSevenDays(): Promise<OrderItem[]> {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const orderItems: OrderItem[] = await DB.OrderItem.findAll({
       attributes: [
         [Sequelize.fn('SUM', Sequelize.col('sum_price')), 'Revenue'],
-        [Sequelize.fn('date', Sequelize.col('created_at')), 'Date'],
-        'category_id',
+        [Sequelize.fn('date', Sequelize.col('OrderItemModel.created_at')), 'Date'],
       ],
       include: {
         model: DB.Product,
-        attributes: [],
+        attributes: ['category_id'],
       },
-      where: 
-        Sequelize.where(Sequelize.col('created_at'), {
-          [Op.lt]: new Date(),
-          [Op.gt]: sevenDaysAgo,
-        }),
-      group: ['Date', 'category_id']
+      where: Sequelize.where(Sequelize.col('OrderItemModel.created_at'), {
+        [Op.lt]: new Date(),
+        [Op.gt]: sevenDaysAgo,
+      }),
+      group: ['Date', 'category_id'],
     });
 
     return orderItems;
   }
 }
-
-  
-
-  
-

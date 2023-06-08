@@ -16,6 +16,7 @@ export class OrderItemRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, AuthMiddleware, this.orderItem.getOrdersItem);
+    this.router.get(`${this.path}/seven`, AuthMiddleware, this.orderItem.chartSevenDays);
     this.router.get(`${this.path}/:id(\\d+)`, AuthMiddleware, this.orderItem.getOrderItemById);
     this.router.post(`${this.path}`, AuthMiddleware, AdminCheckMiddleware, ValidationMiddleware(CreateOrderItemDto), this.orderItem.createOrderItem);
     this.router.put(

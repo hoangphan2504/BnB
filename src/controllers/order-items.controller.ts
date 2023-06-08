@@ -61,4 +61,15 @@ export class OrderItemController {
       next(error);
     }
   };
+
+  public chartSevenDays = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const chartSevenDaysData = await this.OrderItemService.chartSevenDays();
+
+      res.status(200).json({ data: chartSevenDaysData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+  OrderItemService: any;
 }

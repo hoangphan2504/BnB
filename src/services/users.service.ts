@@ -24,7 +24,7 @@ export class UserService {
             'orderCount',
           ],
           [
-            DB.sequelize.literal(`(
+              (`(
               SELECT SUM(oi.sum_price)
               FROM orders as o
               left join order_items oi 

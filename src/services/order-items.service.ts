@@ -3,6 +3,9 @@ import { DB } from '@database';
 import { CreateOrderItemDto } from '@/dtos/order-items.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { OrderItem } from '@interfaces/order-items.interface';
+import { ProductModel } from '@/models/products.model';
+import { Sequelize, Op } from 'sequelize';
+import { OrderItemModel } from '@/models/order-items.model';
 
 @Service()
 export class OrderItemService {
@@ -48,5 +51,34 @@ export class OrderItemService {
     return findOrderItem;
   }
 
-  
+
+public async chartSevenDays(): Promise<OrderItem[]> {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const orderItems: OrderItem[] = await DB.OrderItem.findAll({
+      attributes: [
+        [Sequelize.fn('SUM', Sequelize.col('sum_price')), 'Revenue'],
+        [Sequelize.fn('date', Sequelize.col('created_at')), 'Date'],
+        'category_id',
+      ],
+      include: {
+        model: DB.Product,
+        attributes: [],
+      },
+      where: 
+        Sequelize.where(Sequelize.col('created_at'), {
+          [Op.lt]: new Date(),
+          [Op.gt]: sevenDaysAgo,
+        }),
+      group: ['Date', 'category_id']
+    });
+
+    return orderItems;
+  }
 }
+
+  
+
+  
+

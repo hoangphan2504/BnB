@@ -56,6 +56,7 @@ export class OrderService {
             const product = await DB.Product.findByPk(item.productId, {
               transaction: t,
             });
+            console.log('aaaa');
 
             await product.decrement('inventory', { by: item.quantity, transaction: t });
             await product.increment('sold', { by: item.quantity, transaction: t });

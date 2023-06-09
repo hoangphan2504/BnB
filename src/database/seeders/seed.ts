@@ -113,6 +113,7 @@ class Seeder {
           sold: faker.number.int({ max: 25 }),
           images: [],
           categoryId: faker.number.int({ min: 1, max: 2 }),
+          inventory : faker.number.int({ min: 1, max: 300 })
         };
 
         creationPromises.push(this.productService.createProduct(newProducts));

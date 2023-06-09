@@ -31,6 +31,9 @@ export class CreateProductDto {
 
   @IsString({ each: true })
   public images: string[];
+
+  @IsString({ each: true })
+  public inventory: number;
 }
 
 export class UpdateProductDto {

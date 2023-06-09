@@ -57,6 +57,9 @@ export class OrderService {
               transaction: t,
             });
 
+            await product.decrement('inventory', { by: item.quantity, transaction: t });
+            await product.increment('sold', { by: item.quantity, transaction: t });
+
             return {
               productId: item.productId,
               orderId: createdOrder.id,

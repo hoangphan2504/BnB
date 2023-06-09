@@ -109,10 +109,10 @@ class Seeder {
           price: Number(faker.commerce.price({ max: 1000000 })),
           importPrice: Number(faker.commerce.price({ max: 800000 })),
           brandName: faker.company.name(),
-          quantity: faker.number.int({ min: 30, max: 100 }),
-          sold: faker.number.int({ max: 25 }),
           images: [],
           categoryId: faker.number.int({ min: 1, max: 2 }),
+          inventory: faker.number.int({ min: 15, max: 50 }),
+          sold: 0,
         };
 
         creationPromises.push(this.productService.createProduct(newProducts));

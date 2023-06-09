@@ -56,6 +56,7 @@ export class OrderService {
             const product = await DB.Product.findByPk(item.productId, {
               transaction: t,
             });
+            console.log('aaaa');
 
             return {
               productId: item.productId,

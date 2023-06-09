@@ -22,6 +22,7 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
     underscored: true,
     freezeTableName: true,
   },
+
   pool: {
     min: 0,
     max: 5,
@@ -31,6 +32,7 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
     logger.info(time + 'ms' + ' ' + query);
   },
   benchmark: true,
+  attributeBehavior: 'unsafe-legacy',
 });
 
 sequelize.authenticate();

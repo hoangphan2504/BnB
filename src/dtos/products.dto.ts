@@ -24,13 +24,13 @@ export class CreateProductDto {
   public categoryId?: number;
 
   @IsNumber()
-  public quantity: number;
-
-  @IsNumber()
   public sold: number;
 
   @IsString({ each: true })
   public images: string[];
+
+  @IsNumber()
+  public inventory: number;
 }
 
 export class UpdateProductDto {
@@ -69,4 +69,7 @@ export class UpdateProductDto {
   @IsString({ each: true })
   @IsOptional()
   public images: string[];
+
+  @IsNumber()
+  public inventory: number;
 }

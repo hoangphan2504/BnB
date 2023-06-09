@@ -57,7 +57,7 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
         type: DataTypes.INTEGER,
       },
       sold: {
-        allowNull: false,
+        defaultValue: 0,
         type: DataTypes.INTEGER,
       },
       images: {

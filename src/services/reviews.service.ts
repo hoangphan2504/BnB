@@ -16,6 +16,7 @@ export class ReviewService {
       where: {
         productId: productId,
       },
+      order: [['createdAt', 'DESC']],
     });
 
     const ratingPoint = await DB.Reviews.findAll({

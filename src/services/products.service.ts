@@ -78,6 +78,19 @@ export class ProductService {
           [DB.Sequelize.Op.like]: `%${query}%`,
         },
       },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt', 'importPrice'],
+        include: [
+          [
+            DB.Sequelize.literal(`
+              (SELECT AVG(r.rating) 
+              FROM reviews r
+              WHERE r.product_id = ProductModel.id)
+            `),
+            'avgRating',
+          ],
+        ],
+      },
     });
 
     return findProduct;

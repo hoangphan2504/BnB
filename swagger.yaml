@@ -448,6 +448,27 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
+  #[DEL] orders/id
+  /orders/{id}:
+    delete:
+      tags:
+        - orders
+      summary: Delete Order By Id
+      security:
+        - JWT: []
+      parameters:
+        - name: id
+          in: path
+          description: order Id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
   # [GET] reviews
   /reviews:

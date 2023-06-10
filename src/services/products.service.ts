@@ -32,11 +32,23 @@ export class ProductService {
     return findProduct;
   }
 
-  public async createProduct(productData: CreateProductDto): Promise<Product> {
-    const findProduct = await DB.Product.findOne({ where: { name: productData.name } });
-    if (findProduct) throw new HttpException(409, `This product ${productData.name} already exists`);
+  public async createProduct(dto: CreateProductDto): Promise<Product> {
+    const findProduct = await DB.Product.findOne({ where: { name: dto.name } });
+    if (findProduct) throw new HttpException(409, `This product ${dto.name} already exists`);
 
-    const createProductData: Product = await DB.Product.create(productData);
+    const { brandName, ...product } = dto;
+
+    const findBrand = await DB.Brands.findOne({ where: { name: brandName } });
+    console.log(findBrand);
+    let productBrandId: number;
+    if (!findBrand) {
+      const createBrand = await DB.Brands.create({ name: brandName });
+      productBrandId = createBrand.id;
+    } else {
+      productBrandId = findBrand.id;
+    }
+
+    const createProductData: Product = await DB.Product.create({ ...product, brandId: productBrandId });
     return createProductData;
   }
 

@@ -106,7 +106,10 @@ class Seeder {
   private async SeedProducts() {
     try {
       const { products } = this.seedingAmount;
-      const creationPromises: Promise<Product>[] = [];
+
+      const brands = Array(5)
+        .fill(null)
+        .map(() => faker.company.name());
 
       for (let i = 0; i < products; i++) {
         const newProducts: CreateProductDto = {
@@ -114,17 +117,16 @@ class Seeder {
           desc: faker.commerce.productDescription(),
           price: Number(faker.commerce.price({ max: 1000000, min: 900000 })),
           importPrice: Number(faker.commerce.price({ max: 800000 })),
-          brandName: faker.company.name(),
+          brandName: brands[faker.number.int({ min: 0, max: 4 })],
           images: [],
           categoryId: faker.number.int({ min: 1, max: 2 }),
           inventory: faker.number.int({ min: 50, max: 100 }),
           sold: 0,
         };
 
-        creationPromises.push(this.productService.createProduct(newProducts));
+        await this.productService.createProduct(newProducts);
       }
 
-      await Promise.all(creationPromises);
       logger.info('Product seeding successfully!');
     } catch (error) {
       logger.error('Product seeding error!');

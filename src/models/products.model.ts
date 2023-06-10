@@ -8,7 +8,7 @@ export class ProductModel extends Model<Product, ProductCreationAttributes> impl
   public name: string;
   public desc: string;
   public price: number;
-  public brandName: string;
+  public brandId: number;
   public importPrice: number;
   public categoryId: number;
   public inventory: number;
@@ -44,9 +44,9 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
         allowNull: false,
         type: DataTypes.DECIMAL(10, 2),
       },
-      brandName: {
-        allowNull: false,
-        type: DataTypes.STRING(45),
+      brandId: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
       },
       categoryId: {
         allowNull: true,

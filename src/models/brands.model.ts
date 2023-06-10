@@ -1,20 +1,19 @@
-import { Categories } from '@/interfaces/categories.interface';
+import { Brands } from '@/interfaces/brands.interface';
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
-export type CategoriesCreationAttributes = Optional<Categories, 'id'>;
+export type BrandsCreationAttributes = Optional<Brands, 'id'>;
 
-export class CategoriesModel extends Model<Categories, CategoriesCreationAttributes> implements Categories {
+export class BrandsModel extends Model<Brands, BrandsCreationAttributes> implements Brands {
   public id: number;
   public name: string;
-  public desc: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
 }
 
-const initModel = (sequelize: Sequelize): typeof CategoriesModel => {
-  CategoriesModel.init(
+const initModel = (sequelize: Sequelize): typeof BrandsModel => {
+  BrandsModel.init(
     {
       id: {
         primaryKey: true,
@@ -26,19 +25,15 @@ const initModel = (sequelize: Sequelize): typeof CategoriesModel => {
         unique: true,
         type: DataTypes.STRING(225),
       },
-      desc: {
-        allowNull: false,
-        type: DataTypes.STRING(225),
-      },
     },
     {
-      tableName: 'categories',
+      tableName: 'brands',
       timestamps: true,
       sequelize,
     },
   );
 
-  return CategoriesModel;
+  return BrandsModel;
 };
 
 export default initModel;

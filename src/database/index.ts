@@ -5,6 +5,7 @@ import OrderModel from '@/models/orders.model';
 import ProductModel from '@/models/products.model';
 import ReviewsModel from '@/models/reviews.model';
 import CategoriesModel from '@/models/categories.model';
+import BrandsModel from '@/models/brands.model';
 
 import OrderItemModel from '@/models/order-items.model';
 import { logger } from '@/utils/logger';
@@ -44,11 +45,13 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
   const Categories = CategoriesModel(sequelize);
   const Order = OrderModel(sequelize);
   const User = UserModel(sequelize);
+  const Brands = BrandsModel(sequelize);
 
   Order.hasMany(OrderItem, { foreignKey: 'orderId' });
   OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
   Categories.hasMany(Product, { foreignKey: 'categoryId' });
+  Product.belongsTo(Categories, { foreignKey: 'categoryId' });
 
   Product.hasMany(OrderItem, { foreignKey: 'productId' });
   OrderItem.belongsTo(Product, { foreignKey: 'productId' });
@@ -62,6 +65,9 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
   User.hasMany(Order, { foreignKey: 'userId' });
   Order.belongsTo(User, { foreignKey: 'userId' });
 
+  Brands.hasMany(Product, { foreignKey: 'brandId' });
+  Product.belongsTo(Brands, { foreignKey: 'brandId' });
+
   return {
     Reviews,
     OrderItem,
@@ -69,6 +75,7 @@ const initAllModels = (sequelize: Sequelize.Sequelize) => {
     Categories,
     Order,
     User,
+    Brands,
   };
 };
 

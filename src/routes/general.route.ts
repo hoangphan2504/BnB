@@ -1,8 +1,9 @@
 import { GeneralController } from '@/controllers/general.controller';
+import { Routes } from '@/interfaces/routes.interface';
 import { AuthMiddleware } from '@/middlewares/auth.middleware';
 import { Router } from 'express';
 
-export class GeneralRoute {
+export class GeneralRoute implements Routes {
   public path = '/general';
   public router = Router();
   public general = new GeneralController();

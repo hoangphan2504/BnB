@@ -4,7 +4,7 @@ export interface Product {
   desc: string;
   price: number;
   importPrice: number;
-  brandName: string;
+  brandId: number;
   categoryId: number;
   inventory: number;
   sold: number;

@@ -595,9 +595,18 @@ paths:
     get:
       tags:
         - categories
-      security:
-        - JWT: []
       summary: Find All Categories
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+  /brands:
+    get:
+      tags:
+        - brands
+      summary: Find All Brands
       responses:
         200:
           description: 'OK'

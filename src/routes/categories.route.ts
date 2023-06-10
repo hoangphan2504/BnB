@@ -13,6 +13,6 @@ export class CategoryRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, AuthMiddleware, this.category.getCategories);
+    this.router.get(`${this.path}`, this.category.getCategories);
   }
 }

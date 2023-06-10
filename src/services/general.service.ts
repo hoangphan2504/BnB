@@ -90,6 +90,16 @@ export class GeneralService {
     const orders = await Order.findAll({
       attributes: {
         exclude: ['deletedAt', 'updatedAt'],
+        include: [
+          [
+            DB.sequelize.literal(`
+            (SELECT SUM(sum_price) 
+            FROM order_items 
+            WHERE order_items.order_id = OrderModel.id)
+          `),
+            'totalPrice',
+          ],
+        ],
       },
       where: Sequelize.where(Sequelize.col('created_at'), {
         [Op.lt]: now.toDate(),

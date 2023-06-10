@@ -80,7 +80,7 @@ export class OrderController {
 
       await this.order.deleteOrder(orderId);
 
-      res.status(200).json({message: 'deleted' });
+      res.status(200).json({ message: 'deleted' });
     } catch (error) {
       next(error);
     }

@@ -448,8 +448,36 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
-  #[DEL] orders/id
+
   /orders/{id}:
+    put:
+      tags:
+        - orders
+      summary: Update Order By Id
+      security:
+        - JWT: []
+      parameters:
+        - name: id
+          in: path
+          description: order Id
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: order Data
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateOrderDto'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
     delete:
       tags:
         - orders
@@ -614,6 +642,19 @@ paths:
       tags:
         - general
       summary: revenue by category
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  /general/order-in-timeline:
+    get:
+      tags:
+        - general
+      summary: order in timeline
       responses:
         200:
           description: 'OK'

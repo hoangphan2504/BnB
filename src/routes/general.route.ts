@@ -22,5 +22,10 @@ export class GeneralRoute {
       // AuthMiddleware,
       this.general.getRevenueByCategory,
     );
+    this.router.get(
+      `${this.path}/order-in-timeline`,
+      // AuthMiddleware,
+      this.general.getOrderInTimeline,
+    );
   }
 }

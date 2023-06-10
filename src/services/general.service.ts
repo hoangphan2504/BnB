@@ -1,5 +1,6 @@
 import { DB } from '@/database';
 import { Role } from '@/interfaces/auth.interface';
+import moment from 'moment-timezone';
 import { Op } from 'sequelize';
 import { Service } from 'typedi';
 
@@ -7,8 +8,8 @@ import { Service } from 'typedi';
 export class GeneralService {
   public async getStatistics() {
     const { Sequelize, Product, Order, OrderItem, User } = DB;
-    const sevenDaysAgo = new Date(); // new Date() trả về cái gì)
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); //setDate là gì
+    const now = moment.tz('Asia/Ho_Chi_Minh');
+    const sevenDaysAgo = moment(now).subtract(7, 'days').toDate();
 
     const totalProducts = await Product.count(); // có hàm count để đếm
     const totalOrders = await Order.findAll({
@@ -79,5 +80,24 @@ export class GeneralService {
     });
 
     return orderItems;
+  }
+
+  public async getOrderInTimeline() {
+    const { Sequelize, Order } = DB;
+    const now = moment.tz('Asia/Ho_Chi_Minh');
+    const sevenDaysAgo = moment(now).subtract(7, 'days');
+
+    const orders = await Order.findAll({
+      where: Sequelize.where(Sequelize.col('created_at'), {
+        [Op.lt]: now.toDate(),
+        [Op.gt]: sevenDaysAgo.toDate(),
+      }),
+      order: [[Sequelize.col('created_at'), 'DESC']],
+      attributes: {
+        exclude: ['user_id'],
+      },
+    });
+
+    return orders;
   }
 }

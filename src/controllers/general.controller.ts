@@ -24,4 +24,14 @@ export class GeneralController {
       next(error);
     }
   };
+
+  public getOrderInTimeline = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await this.general.getOrderInTimeline();
+
+      res.status(200).json({ data, message: 'getOrderInTimeline' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

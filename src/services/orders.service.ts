@@ -40,43 +40,40 @@ export class OrderService {
   }
 
   public async createOrder(dto: CreateOrderDto, userId: number): Promise<Order> {
+    const t = await DB.sequelize.transaction();
     try {
-      const result = await DB.sequelize.transaction(async t => {
-        const { products, ...rest } = dto;
-        const createdOrder: Order = await DB.Order.create(
-          {
-            ...rest,
-            userId,
-          },
-          { transaction: t },
-        );
+      const { products, ...rest } = dto;
+      const createdOrder: Order = await DB.Order.create(
+        {
+          ...rest,
+          userId,
+        },
+        { transaction: t },
+      );
 
-        const orderItems: OrderItem[] = await Promise.all(
-          products.map(async item => {
-            const product = await DB.Product.findByPk(item.productId, {
-              transaction: t,
-            });
-            console.log('aaaa');
+      const orderItems: OrderItem[] = await Promise.all(
+        products.map(async item => {
+          const product = await DB.Product.findByPk(item.productId, {
+            transaction: t,
+          });
 
-            await product.decrement('inventory', { by: item.quantity, transaction: t });
-            await product.increment('sold', { by: item.quantity, transaction: t });
+          await product.decrement('inventory', { by: item.quantity, transaction: t });
+          await product.increment('sold', { by: item.quantity, transaction: t });
 
-            return {
-              productId: item.productId,
-              orderId: createdOrder.id,
-              quantity: item.quantity,
-              sumPrice: item.quantity * product.price,
-            };
-          }),
-        );
+          return {
+            productId: item.productId,
+            orderId: createdOrder.id,
+            quantity: item.quantity,
+            sumPrice: item.quantity * product.price,
+          };
+        }),
+      );
 
-        await DB.OrderItem.bulkCreate(orderItems, { transaction: t });
-
-        return createdOrder;
-      });
-
-      return result;
+      await DB.OrderItem.bulkCreate(orderItems, { transaction: t });
+      await t.commit();
+      return createdOrder;
     } catch (error) {
+      await t.rollback();
       console.log(error);
       throw error;
     }

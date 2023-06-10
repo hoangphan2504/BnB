@@ -11,4 +11,7 @@ export interface Order {
   receiptAddress: string;
   receiptName: string;
   receiptPhone: string;
+
+  createdAt?: Date;
+  updatedAt?: Date;
 }

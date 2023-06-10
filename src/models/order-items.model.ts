@@ -10,9 +10,9 @@ export class OrderItemModel extends Model<OrderItem, OrderItemCreationAttributes
   public orderId: number;
   public sumPrice: number;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
 const initModel = (sequelize: Sequelize): typeof OrderItemModel => {

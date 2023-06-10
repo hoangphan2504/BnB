@@ -8,17 +8,17 @@ export class GeneralService {
   public async getStatistics() {
     const { Sequelize, Product, Order, OrderItem, User } = DB;
     const sevenDaysAgo = new Date(); // new Date() trả về cái gì)
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); //setDate là gì 
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); //setDate là gì
 
-    const totalProducts = await Product.count(); // có hàm count để đếm 
-    const totalOrders = await Order.findAll({ 
+    const totalProducts = await Product.count(); // có hàm count để đếm
+    const totalOrders = await Order.findAll({
       attributes: [
         [Sequelize.fn('date', Sequelize.col('created_at')), 'Date'], // para thứ nhất là gì, para thứ 2 là lấy cột nào, para thứ 3 chắc là tên của cột đó
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'TotalOrders'],
       ],
       where: Sequelize.where(Sequelize.col('created_at'), {
         [Op.lt]: new Date(),
-        [Op.gt]: sevenDaysAgo, 
+        [Op.gt]: sevenDaysAgo,
       }),
       group: ['Date'],
       order: [[Sequelize.col('Date'), 'ASC']],

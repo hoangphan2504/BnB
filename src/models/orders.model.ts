@@ -10,9 +10,9 @@ export class OrderModel extends Model<Order, OrderCreationAttributes> implements
   public receiptName: string;
   public receiptPhone: string;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
 const initModel = (sequelize: Sequelize): typeof OrderModel => {

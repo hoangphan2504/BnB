@@ -4,4 +4,6 @@ export interface OrderItem {
   orderId: number;
   productId: number;
   sumPrice: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

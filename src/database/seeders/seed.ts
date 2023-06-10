@@ -14,6 +14,7 @@ import { CreateReviewDto } from '@/dtos/reviews.dto';
 import { CategoryService } from '@/services/categories.service';
 import { Role } from '@/interfaces/auth.interface';
 import { OrderStatus } from '@/interfaces/orders.interface';
+import moment from 'moment-timezone';
 
 interface SeedAmount {
   users: number;
@@ -30,6 +31,8 @@ class Seeder {
   private orderService = new OrderService();
   private reviewService = new ReviewService();
   private categoryService = new CategoryService();
+  private orderModel = DB.Order;
+  private orderItemMode = DB.OrderItem;
 
   constructor(amount: SeedAmount) {
     this.seedingAmount = amount;
@@ -38,15 +41,18 @@ class Seeder {
   private async SeedOrders() {
     try {
       const { products, ordersPerUser, itemsPerOrder } = this.seedingAmount;
+
       const usersList = await this.userService.findAllUser();
       await Promise.all(
         usersList.map(async user => {
           for (let i = 0; i < ordersPerUser; i++) {
+            let prodId = 0;
             const productItems: ProductItem[] = Array(itemsPerOrder)
               .fill(null)
               .map(() => {
-                const productId = faker.number.int({ min: 1, max: products - 1 });
-                const quantity = faker.number.int({ min: 1, max: 10 });
+                prodId = prodId + faker.number.int({ min: 1, max: 6 });
+                const productId = prodId;
+                const quantity = faker.number.int({ min: 1, max: 5 });
 
                 return { productId, quantity };
               });
@@ -106,13 +112,13 @@ class Seeder {
         const newProducts: CreateProductDto = {
           name: faker.commerce.productName(),
           desc: faker.commerce.productDescription(),
-          price: Number(faker.commerce.price({ max: 1000000 })),
+          price: Number(faker.commerce.price({ max: 1000000, min: 900000 })),
           importPrice: Number(faker.commerce.price({ max: 800000 })),
           brandName: faker.company.name(),
           images: [],
           categoryId: faker.number.int({ min: 1, max: 2 }),
+          inventory: faker.number.int({ min: 50, max: 100 }),
           sold: 0,
-          inventory: 0
         };
 
         creationPromises.push(this.productService.createProduct(newProducts));
@@ -165,12 +171,41 @@ class Seeder {
     });
   }
 
+  private async ModifyCreatedDate() {
+    const orders = await this.orderModel.findAll();
+
+    const now = moment.tz('Asia/Ho_Chi_Minh');
+    await Promise.all(
+      orders.map(async order => {
+        const randomDay = moment(now)
+          .clone()
+          .subtract(faker.number.int({ min: 1, max: 7 }), 'days')
+          .toDate();
+        await DB.Order.update({ createdAt: randomDay }, { where: { id: order.id } });
+      }),
+    );
+
+    const orderItems = await this.orderItemMode.findAll();
+
+    await Promise.all(
+      orderItems.map(orderItem => {
+        const randomDay = moment(now)
+          .clone()
+          .subtract(faker.number.int({ min: 1, max: 7 }), 'days')
+          .toDate();
+        return DB.OrderItem.update({ createdAt: randomDay }, { where: { id: orderItem.id } });
+      }),
+    );
+    logger.info('Modify created date successfully!');
+  }
+
   public async seedAll() {
     await this.SeedUsers();
     await this.SeedCategories();
     await this.SeedProducts();
     await this.SeedOrders();
     await this.SeedReviews();
+    await this.ModifyCreatedDate();
   }
 }
 

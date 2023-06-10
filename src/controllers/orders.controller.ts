@@ -78,9 +78,9 @@ export class OrderController {
         throw new HttpException(404, "Order doesn't exist");
       }
 
-      const deleteOrderData: Order = await this.order.deleteOrder(orderId);
+      await this.order.deleteOrder(orderId);
 
-      res.status(200).json({ data: deleteOrderData, message: 'deleted' });
+      res.status(200).json({message: 'deleted' });
     } catch (error) {
       next(error);
     }

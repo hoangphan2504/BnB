@@ -89,12 +89,64 @@ export class OrderService {
     return updatedOrder;
   }
 
-  public async deleteOrder(orderId: number): Promise<Order> {
-    const findOrder: Order = await DB.Order.findByPk(orderId);
-    if (!findOrder) throw new HttpException(409, "Order doesn't exist");
+  // public async deleteOrder(orderId: number): Promise<Order> {
+  //   const findOrder: Order = await DB.Order.findByPk(orderId);
+  //   if (!findOrder) throw new HttpException(409, "Order doesn't exist");
 
-    await DB.Order.destroy({ where: { id: orderId } });
+  //   await DB.Order.destroy({ where: { id: orderId } });
 
-    return findOrder;
+  //   return findOrder;
+  // }
+
+  public async deleteOrder(orderId: number): Promise<void> {
+    try {
+      const findOrder: Order = await DB.Order.findByPk(orderId);
+  
+      if (!findOrder) {
+        throw new Error(`Order with ID ${orderId} not found.`);
+      }
+  
+      await DB.sequelize.transaction(async (t) => {
+        const orderItems = await DB.OrderItem.findAll({
+          where: {
+            orderId: findOrder.id,
+          },
+          transaction: t,
+        });
+  
+        await Promise.all(
+          orderItems.map(async (orderItem) => {
+            const product = await DB.Product.findByPk(orderItem.productId, {
+              transaction: t,
+            });
+  
+            await product.increment('inventory', {
+              by: orderItem.quantity,
+              transaction: t,
+            });
+  
+            await product.decrement('sold', {
+              by: orderItem.quantity,
+              transaction: t,
+            });
+          })
+        );
+  
+        await DB.OrderItem.destroy({
+          where: {
+            orderId: findOrder.id,
+          },
+          transaction: t,
+        });
+  
+        await DB.Order.destroy({ where: { id: orderId } });
+        return findOrder;
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
+
+
 }

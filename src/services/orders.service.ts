@@ -101,44 +101,44 @@ export class OrderService {
   public async deleteOrder(orderId: number): Promise<void> {
     try {
       const findOrder: Order = await DB.Order.findByPk(orderId);
-  
+
       if (!findOrder) {
         throw new Error(`Order with ID ${orderId} not found.`);
       }
-  
-      await DB.sequelize.transaction(async (t) => {
+
+      await DB.sequelize.transaction(async t => {
         const orderItems = await DB.OrderItem.findAll({
           where: {
             orderId: findOrder.id,
           },
           transaction: t,
         });
-  
+
         await Promise.all(
-          orderItems.map(async (orderItem) => {
+          orderItems.map(async orderItem => {
             const product = await DB.Product.findByPk(orderItem.productId, {
               transaction: t,
             });
-  
+
             await product.increment('inventory', {
               by: orderItem.quantity,
               transaction: t,
             });
-  
+
             await product.decrement('sold', {
               by: orderItem.quantity,
               transaction: t,
             });
-          })
+          }),
         );
-  
+
         await DB.OrderItem.destroy({
           where: {
             orderId: findOrder.id,
           },
           transaction: t,
         });
-  
+
         await DB.Order.destroy({ where: { id: orderId } });
         return findOrder;
       });
@@ -147,6 +147,4 @@ export class OrderService {
       throw error;
     }
   }
-
-
 }

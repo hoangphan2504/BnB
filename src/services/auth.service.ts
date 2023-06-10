@@ -31,6 +31,7 @@ export class AuthService {
   public async login(userData: CreateUserDto): Promise<{ token: TokenPayload; findUser: User }> {
     const findUser: User = await DB.User.findOne({ where: { email: userData.email } });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    if (findUser.isActive === false) throw new HttpException(409, `This user was disabled`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password not matching');
@@ -39,7 +40,6 @@ export class AuthService {
     const refreshTokenExp = 24 * 60 * 60;
     const { token: accessToken } = createToken(findUser, accessTokenExp, TokenType.ACCESS);
     const { token: refreshToken } = createToken(findUser, refreshTokenExp, TokenType.REFRESH);
-    // const cookie = createCookie(tokenData);
 
     return { token: { accessToken, refreshToken }, findUser };
   }
@@ -51,6 +51,8 @@ export class AuthService {
     if (type !== TokenType.REFRESH) throw new HttpException(403, 'Access permission denied!');
 
     const findUser = await DB.User.findByPk(id);
+    if (!findUser) throw new HttpException(409, `This user ${id} was not found`);
+    if (findUser.isActive === false) throw new HttpException(409, `This user ${id} was not active`);
 
     const accessTokenExp = 60 * 60;
     const { token } = createToken(findUser, accessTokenExp, TokenType.ACCESS);

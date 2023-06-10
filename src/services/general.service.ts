@@ -88,16 +88,24 @@ export class GeneralService {
     const sevenDaysAgo = moment(now).subtract(7, 'days');
 
     const orders = await Order.findAll({
+      attributes: {
+        exclude: ['deletedAt', 'updatedAt'],
+      },
       where: Sequelize.where(Sequelize.col('created_at'), {
         [Op.lt]: now.toDate(),
         [Op.gt]: sevenDaysAgo.toDate(),
       }),
       order: [[Sequelize.col('created_at'), 'DESC']],
-      attributes: {
-        exclude: ['user_id'],
-      },
     });
+    const groupByDate = orders.reduce((acc, order) => {
+      const date = moment(order.createdAt).format('DD/MM/YYYY');
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(order);
+      return acc;
+    }, {});
 
-    return orders;
+    return groupByDate;
   }
 }

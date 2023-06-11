@@ -56,7 +56,7 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
       },
       avatar: {
         allowNull: true,
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
       },
     },
     {

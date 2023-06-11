@@ -15,6 +15,7 @@ import { CategoryService } from '@/services/categories.service';
 import { Role } from '@/interfaces/auth.interface';
 import { OrderStatus } from '@/interfaces/orders.interface';
 import moment from 'moment-timezone';
+import { COSMETIC_IMG, PERFUME_IMG } from './constant-urls';
 
 interface SeedAmount {
   users: number;
@@ -112,18 +113,23 @@ class Seeder {
         .map(() => faker.company.name());
 
       for (let i = 0; i < products; i++) {
+        const category = faker.number.int({ min: 1, max: 2 });
+
+        const imgs_src = category == 1 ? PERFUME_IMG : COSMETIC_IMG;
+
+        const imgsSet = new Set<string>();
+        while (imgsSet.size < 3) {
+          imgsSet.add(imgs_src[faker.number.int({ min: 0, max: imgs_src.length - 1 })]);
+        }
+
         const newProducts: CreateProductDto = {
           name: faker.commerce.productName(),
           desc: faker.commerce.productDescription(),
           price: Number(faker.commerce.price({ max: 1000000, min: 900000 })),
           importPrice: Number(faker.commerce.price({ max: 800000 })),
           brandName: brands[faker.number.int({ min: 0, max: 4 })],
-          images: [
-            'https://firebasestorage.googleapis.com/v0/b/bnb-uit.appspot.com/o/products%2FImage.png?alt=media&token=ebc0f63b-697f-4cd9-a208-0991b2ea3b4d&_gl=1*oad03i*_ga*MTAwMDQyNjAyMS4xNjc5ODA4NDE5*_ga_CW55HF8NVT*MTY4NjA0NTA5Mi42Ni4xLjE2ODYwNDYyNTQuMC4wLjA.',
-            'https://firebasestorage.googleapis.com/v0/b/bnb-uit.appspot.com/o/products%2FImage%20(1).png?alt=media&token=a9fa84f7-8a6e-49fd-a550-0edf6be111d8&_gl=1*hqbu3v*_ga*MTAwMDQyNjAyMS4xNjc5ODA4NDE5*_ga_CW55HF8NVT*MTY4NjA0NTA5Mi42Ni4xLjE2ODYwNDYyMjguMC4wLjA.',
-            'https://firebasestorage.googleapis.com/v0/b/bnb-uit.appspot.com/o/products%2FImage%20(2).png?alt=media&token=82a2e409-9550-4313-aedf-c7063377aa75&_gl=1*1npvnqf*_ga*MTAwMDQyNjAyMS4xNjc5ODA4NDE5*_ga_CW55HF8NVT*MTY4NjA0NTA5Mi42Ni4xLjE2ODYwNDYyNDEuMC4wLjA.',
-          ],
-          categoryId: faker.number.int({ min: 1, max: 2 }),
+          images: [...imgsSet],
+          categoryId: category,
           inventory: faker.number.int({ min: 50, max: 100 }),
           sold: 0,
         };

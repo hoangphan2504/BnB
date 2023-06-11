@@ -5,6 +5,8 @@ import { CreateUserDto, UpdatePasswordDto, UpdateUserDto } from '@dtos/users.dto
 import { HttpException } from '@/exceptions/httpException';
 import { User } from '@interfaces/users.interface';
 import { Role } from '@/interfaces/auth.interface';
+import { AVATARS } from '@/database/seeders/constant-urls';
+import { faker } from '@faker-js/faker';
 
 @Service()
 export class UserService {
@@ -24,14 +26,14 @@ export class UserService {
             'orderCount',
           ],
           [
-              (`(
+            `(
               SELECT SUM(oi.sum_price)
               FROM orders as o
               left join order_items oi 
               on oi.order_id = o.id 
               where o.user_id = UserModel.id
               group by o.user_id 
-            )`),
+            )`,
             'totalPayment',
           ],
         ],
@@ -52,7 +54,11 @@ export class UserService {
     if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await DB.User.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await DB.User.create({
+      ...userData,
+      password: hashedPassword,
+      avatar: AVATARS[faker.number.int({ min: 0, max: 2 })],
+    });
     return createUserData;
   }
 

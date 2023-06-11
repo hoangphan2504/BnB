@@ -7,13 +7,12 @@ import { Product } from '@interfaces/products.interface';
 @Service()
 export class ProductService {
   public async findAllProducts(): Promise<Product[]> {
-    const allProducts: Product[] = await DB.Product.findAll({
+    const products = await DB.Product.findAll({
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'deletedAt', 'importPrice'],
         include: [
           [
-            DB.Sequelize.literal(`
-              (SELECT AVG(r.rating) 
+            DB.Sequelize.literal(`(SELECT AVG(r.rating) 
               FROM reviews r
               WHERE r.product_id = ProductModel.id)
             `),
@@ -22,7 +21,14 @@ export class ProductService {
         ],
       },
     });
-    return allProducts;
+
+    products.forEach(product => {
+      if (!product.dataValues['avgRating']) {
+        product.dataValues['avgRating'] = 0;
+      }
+    });
+
+    return products;
   }
 
   public async findProductById(productId: number): Promise<Product> {
@@ -72,7 +78,7 @@ export class ProductService {
   }
 
   public async searchProductByName(query: string) {
-    const findProduct: Product[] = await DB.Product.findAll({
+    const products = await DB.Product.findAll({
       where: {
         name: {
           [DB.Sequelize.Op.like]: `%${query}%`,
@@ -93,6 +99,12 @@ export class ProductService {
       },
     });
 
-    return findProduct;
+    products.forEach(product => {
+      if (!product.dataValues['avgRating']) {
+        product.dataValues['avgRating'] = 0;
+      }
+    });
+
+    return products;
   }
 }

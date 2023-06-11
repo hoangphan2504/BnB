@@ -17,6 +17,12 @@ export class ReviewService {
         productId: productId,
       },
       order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: DB.User,
+          attributes: ['fullname', 'avatar'],
+        },
+      ],
     });
 
     const ratingPoint = await DB.Reviews.findAll({
@@ -30,6 +36,7 @@ export class ReviewService {
           'percents',
         ],
       ],
+
       where: {
         productId: productId,
       },

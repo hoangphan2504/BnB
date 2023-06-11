@@ -1,7 +1,6 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { User } from '@interfaces/users.interface';
 import { Role } from '@/interfaces/auth.interface';
-import { OrderModel } from './orders';
 
 export type UserCreationAttributes = Optional<User, 'id'>;
 
@@ -14,6 +13,7 @@ export class UserModel extends Model<User, UserCreationAttributes> implements Us
   public id: number;
   public email: string;
   public password: string;
+  public avatar: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -51,8 +51,12 @@ const initModel = (sequelize: Sequelize): typeof UserModel => {
         type: DataTypes.BOOLEAN,
       },
       role: {
-        defaultValue: Role.USER,
-        type: DataTypes.ENUM('admin', 'user'),
+        defaultValue: Role.CUSTOMER,
+        type: DataTypes.ENUM(...Object.values(Role)),
+      },
+      avatar: {
+        allowNull: true,
+        type: DataTypes.STRING(500),
       },
     },
     {

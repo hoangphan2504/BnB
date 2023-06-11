@@ -6,11 +6,13 @@ export type OrderItemCreationAttributes = Optional<OrderItem, 'id'>;
 export class OrderItemModel extends Model<OrderItem, OrderItemCreationAttributes> implements OrderItem {
   public id: number;
   public quantity: number;
-  public product: number;
+  public productId: number;
+  public orderId: number;
+  public sumPrice: number;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
 const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
@@ -21,13 +23,21 @@ const initModel = (sequelize: Sequelize): typeof OrderItemModel => {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       },
-      product: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
       quantity: {
         allowNull: false,
         type: DataTypes.INTEGER,
+      },
+      productId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      orderId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      sumPrice: {
+        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
       },
     },
     {

@@ -23,6 +23,7 @@ const initModel = (sequelize: Sequelize): typeof CategoriesModel => {
       },
       name: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING(225),
       },
       desc: {

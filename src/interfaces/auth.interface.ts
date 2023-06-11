@@ -1,13 +1,19 @@
 import { Request } from 'express';
-import { User } from '@interfaces/users.interface';
+import { UserModel } from '@/models/users.model';
 
 export enum Role {
-  ADMIN = 'admin',
-  USER = 'user',
+  ADMIN = 'ADMIN',
+  CUSTOMER = 'CUSTOMER',
+  DELIVERER = 'DELIVERER',
+}
+export enum TokenType {
+  REFRESH = 'REFRESH',
+  ACCESS = 'ACCESS',
 }
 export interface DataStoredInToken {
   id: number;
   role: Role;
+  type: TokenType;
 }
 
 export interface TokenData {
@@ -15,6 +21,11 @@ export interface TokenData {
   expiresIn: number;
 }
 
+export interface TokenPayload {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface RequestWithUser extends Request {
-  user: User;
+  user: UserModel;
 }

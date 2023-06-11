@@ -4,13 +4,12 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { Routes } from '@interfaces/routes.interface';
 import { AdminCheckMiddleware, AuthMiddleware } from '@middlewares/auth.middleware';
 import { ValidationMiddleware } from '@middlewares/validation.middleware';
-import { LoginDto } from '@/dtos/auth.dto';
+import { LoginDto, RefreshTokenDto } from '@/dtos/auth.dto';
 
 export class AuthRoute implements Routes {
   public router = Router();
   public auth = new AuthController();
   public path = '/auth';
-  authController: any;
 
   constructor() {
     this.initializeRoutes();
@@ -19,10 +18,6 @@ export class AuthRoute implements Routes {
   private initializeRoutes() {
     this.router.post(`${this.path}/signup`, ValidationMiddleware(CreateUserDto), this.auth.signUp);
     this.router.post(`${this.path}/login`, ValidationMiddleware(LoginDto), this.auth.logIn);
-    this.router.post(`${this.path}/logout`, AuthMiddleware, this.auth.logOut);
-
-    // Authorization mechanism
-    this.router.get(`${this.path}/user`, AuthMiddleware, this.auth.userRoute);
-    this.router.get(`${this.path}/admin`, AuthMiddleware, AdminCheckMiddleware, this.auth.adminRoute);
+    this.router.post(`${this.path}/refresh`, ValidationMiddleware(RefreshTokenDto), this.auth.refreshToken);
   }
 }

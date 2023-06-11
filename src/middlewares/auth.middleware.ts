@@ -3,12 +3,9 @@ import { verify } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
 import { DB } from '@database';
 import { HttpException } from '@exceptions/httpException';
-import { DataStoredInToken, RequestWithUser, Role } from '@interfaces/auth.interface';
+import { DataStoredInToken, RequestWithUser, Role, TokenType } from '@interfaces/auth.interface';
 
 const getAuthorization = (req: any) => {
-  const coockie = req.cookies['Authorization'];
-  if (coockie) return coockie;
-
   const header = req.header('Authorization');
   if (header) return header.split('Bearer ')[1];
 
@@ -20,8 +17,15 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
     const Authorization = getAuthorization(req);
 
     if (Authorization) {
-      const { id } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
-      const findUser = await DB.Prodcuts.findByPk(id);
+      const { id, type } = verify(Authorization, SECRET_KEY) as DataStoredInToken;
+      if (type !== TokenType.ACCESS) {
+        next(new HttpException(403, 'Access permission denied'));
+      }
+
+      const findUser = await DB.User.findByPk(id);
+      console.log('login user', findUser.dataValues);
+
+      if (findUser.dataValues.isActive == false) next(new HttpException(403, 'This account is disabled!'));
 
       if (findUser) {
         req.user = findUser;
@@ -33,13 +37,22 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       next(new HttpException(404, 'Authentication token missing'));
     }
   } catch (error) {
+    console.log(error);
     next(new HttpException(401, 'Wrong authentication token'));
   }
 };
 
 export const AdminCheckMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { user } = req;
+  if (user.getDataValue('role') == Role.ADMIN) {
+    next();
+  } else next(new HttpException(403, "Cannot access role admin's resource"));
+};
 
-  if (!user || user.role != Role.ADMIN) next(new HttpException(401, 'Permission denied!'));
-  else next();
+export const DelivererCheckMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { user } = req;
+  const acceptedRoles = [Role.ADMIN, Role.DELIVERER];
+  if (acceptedRoles.includes(user.getDataValue('role'))) {
+    next();
+  } else next(new HttpException(403, "Cannot access role delieverer's resource"));
 };

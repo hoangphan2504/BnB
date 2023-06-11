@@ -4,12 +4,15 @@ import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 export type OrderCreationAttributes = Optional<Order, 'id'>;
 export class OrderModel extends Model<Order, OrderCreationAttributes> implements Order {
   public id: number;
-  public totalPrices: number;
   public status: OrderStatus;
+  public userId: number;
+  public receiptAddress: string;
+  public receiptName: string;
+  public receiptPhone: string;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
 const initModel = (sequelize: Sequelize): typeof OrderModel => {
@@ -20,22 +23,26 @@ const initModel = (sequelize: Sequelize): typeof OrderModel => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      totalPrices: {
+      status: {
+        allowNull: false,
+        defaultValue: OrderStatus.PENDING,
+        type: DataTypes.ENUM(...Object.values(OrderStatus)),
+      },
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      status: {
+      receiptAddress: {
         allowNull: false,
-        type: DataTypes.ENUM,
-        values: [
-          OrderStatus.PENDING,
-          OrderStatus.CONFIRMED,
-          OrderStatus.CANCELLED,
-          OrderStatus.DELIVERED,
-          OrderStatus.RETURNED,
-          OrderStatus.PAID,
-          OrderStatus.UNPAID,
-        ],
+        type: DataTypes.STRING(225),
+      },
+      receiptName: {
+        allowNull: false,
+        type: DataTypes.STRING(45),
+      },
+      receiptPhone: {
+        allowNull: false,
+        type: DataTypes.STRING(45),
       },
     },
     {

@@ -1,14 +1,4 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsArray, IsEnum, IsOptional } from 'class-validator';
-
-export enum ProductStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  CANCELLED = 'CANCELLED',
-  DELIVERED = 'DELIVERED',
-  RETURNED = 'RETURNED',
-  PAID = 'PAID',
-  UNPAID = 'UNPAID',
-}
+import { IsString, IsNotEmpty, IsNumber, IsArray, IsOptional } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -22,25 +12,25 @@ export class CreateProductDto {
   @IsNumber()
   public price: number;
 
-  @IsEnum(ProductStatus)
-  public status: ProductStatus;
+  @IsNumber()
+  public importPrice: number;
 
   @IsString()
   @IsNotEmpty()
-  public brand_name: string;
+  public brandName: string;
 
   @IsOptional()
-  @IsString()
-  public categories_id: string;
-
   @IsNumber()
-  public quantity: number;
+  public categoryId?: number;
 
   @IsNumber()
   public sold: number;
 
   @IsString({ each: true })
   public images: string[];
+
+  @IsNumber()
+  public inventory: number;
 }
 
 export class UpdateProductDto {
@@ -58,19 +48,14 @@ export class UpdateProductDto {
   @IsOptional()
   public price: number;
 
-  @IsEnum(ProductStatus)
-  @IsOptional()
-  public status: ProductStatus;
-
   @IsString()
   @IsOptional()
   @IsNotEmpty()
-  public brand_name: string;
+  public brandName: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  @IsNotEmpty()
-  public categories_id: string;
+  public categoryId?: number;
 
   @IsNumber()
   @IsOptional()
@@ -84,4 +69,7 @@ export class UpdateProductDto {
   @IsString({ each: true })
   @IsOptional()
   public images: string[];
+
+  @IsNumber()
+  public inventory: number;
 }

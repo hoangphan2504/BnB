@@ -8,6 +8,7 @@ export class ReviewsModel extends Model<Reviews, ReviewsCreationAttributes> impl
   public userId: number;
   public content: string;
   public rating: number;
+  public productId: number;
 
   public readonly createdAt!: Date;
   public readonly deletedAt!: Date;
@@ -22,7 +23,7 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
         type: DataTypes.INTEGER,
       },
       userId: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
       },
       content: {
@@ -32,6 +33,10 @@ const initModel = (sequelize: Sequelize): typeof ReviewsModel => {
       rating: {
         allowNull: false,
         type: DataTypes.DOUBLE,
+      },
+      productId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
       },
     },
     {

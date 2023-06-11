@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { Product, ProductStatus } from '@/interfaces/products.interface';
+import { Product } from '@/interfaces/products.interface';
 
 export type ProductCreationAttributes = Optional<Product, 'id'>;
 
@@ -8,10 +8,10 @@ export class ProductModel extends Model<Product, ProductCreationAttributes> impl
   public name: string;
   public desc: string;
   public price: number;
-  public status: ProductStatus;
-  public brand_name: string;
-  public categories_id: string;
-  public quantity: number;
+  public brandId: number;
+  public importPrice: number;
+  public categoryId: number;
+  public inventory: number;
   public sold: number;
   public images: string[];
 
@@ -38,35 +38,26 @@ const initModel = (sequelize: Sequelize): typeof ProductModel => {
       },
       price: {
         allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
+      },
+      importPrice: {
+        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
+      },
+      brandId: {
+        allowNull: true,
         type: DataTypes.INTEGER,
       },
-      status: {
-        allowNull: false,
-        type: DataTypes.ENUM,
-        values: [
-          ProductStatus.PENDING,
-          ProductStatus.CONFIRMED,
-          ProductStatus.CANCELLED,
-          ProductStatus.DELIVERED,
-          ProductStatus.RETURNED,
-          ProductStatus.PAID,
-          ProductStatus.UNPAID,
-        ],
-      },
-      brand_name: {
-        allowNull: false,
-        type: DataTypes.STRING(45),
-      },
-      categories_id: {
+      categoryId: {
         allowNull: true,
-        type: DataTypes.STRING(45),
+        type: DataTypes.INTEGER,
       },
-      quantity: {
+      inventory: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
       sold: {
-        allowNull: false,
+        defaultValue: 0,
         type: DataTypes.INTEGER,
       },
       images: {

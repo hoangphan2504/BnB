@@ -1,5 +1,9 @@
 export interface OrderItem {
-  id: number;
+  id?: number;
   quantity: number;
-  product: number;
+  orderId: number;
+  productId: number;
+  sumPrice: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

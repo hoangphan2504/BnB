@@ -31,9 +31,9 @@ export class ProductController {
   public createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productData: CreateProductDto = req.body;
-      const createUserData: Product = await this.product.createProduct(productData);
+      const createProductData: Product = await this.product.createProduct(productData);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
+      res.status(201).json({ data: createProductData, message: 'created' });
     } catch (error) {
       next(error);
     }
@@ -57,6 +57,17 @@ export class ProductController {
       const deleteProductData: Product = await this.product.deleteProduct(productId);
 
       res.status(200).json({ data: deleteProductData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public searchProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { keyword } = req.query;
+      const searchProductsData: Product[] = await this.product.searchProductByName(keyword as string);
+
+      res.status(200).json({ data: searchProductsData, message: 'search' });
     } catch (error) {
       next(error);
     }

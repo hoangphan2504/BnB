@@ -13,7 +13,7 @@ RUN npm install --legacy-peer-deps
 # Set Env
 ENV NODE_ENV production
 
-EXPOSE 80
+EXPOSE 443
 
 # Cmd script
 CMD ["npm", "run", "dev"]

@@ -10,14 +10,10 @@ WORKDIR /app
 # Install Node Package
 RUN npm install --legacy-peer-deps
 
-RUN chmod +x /app/docker-entrypoint.sh
-
-ENTRYPOINT [ "docker-entrypoint.sh" ]
-
 # Set Env
-ENV NODE_ENV development
+ENV NODE_ENV production
 
-EXPOSE 3000
+EXPOSE 8080
 
 # Cmd script
 CMD ["npm", "run", "dev"]

@@ -9,6 +9,8 @@ import BrandsModel from '@/models/brands.model';
 
 import OrderItemModel from '@/models/order-items.model';
 import { logger } from '@/utils/logger';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 console.log({ DB_DATABASE, DB_USER, DB_PASSWORD, DB_PASS });
 
@@ -34,6 +36,12 @@ const sequelize = new Sequelize.Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
   },
   benchmark: true,
   attributeBehavior: 'unsafe-legacy',
+
+  dialectOptions: {
+    ssl: {
+      ca: readFileSync(join(__dirname, 'DigiCertGlobalRootCA.crt.pem')).toString(),
+    },
+  },
 });
 
 sequelize.authenticate();
